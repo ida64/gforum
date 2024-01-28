@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"path/filepath"
-	"strconv"
 
 	"github.com/dchest/captcha"
 	"github.com/gin-gonic/gin"
@@ -397,16 +396,7 @@ func handleAdministrationAddCategoryAction(c *gin.Context) {
 }
 
 func handleAdministrationEditCategoryAction(c *gin.Context) {
-	var id int
-
-	if c.Param("id") != "" {
-		var err error
-		id, err = strconv.Atoi(c.Param("id"))
-		if err != nil {
-			renderErrorAlert(c, "invalid id")
-			return
-		}
-	}
+	var id int = getParamterInt(c, "id")
 
 	var form AdministrationAddCategoryActionForm
 	if err := c.ShouldBind(&form); err != nil {
@@ -440,16 +430,7 @@ func handleAdministrationEditCategoryAction(c *gin.Context) {
 }
 
 func handleAdministrationDeleteCategoryAction(c *gin.Context) {
-	var id int
-
-	if c.Param("id") != "" {
-		var err error
-		id, err = strconv.Atoi(c.Param("id"))
-		if err != nil {
-			renderErrorAlert(c, "invalid id")
-			return
-		}
-	}
+	var id int = getParamterInt(c, "id")
 
 	var category CategoryModel
 	err := database.Where("id = ?", id).First(&category).Error

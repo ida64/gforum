@@ -48,7 +48,7 @@ var Routes = []Route{
 	},
 	{
 		Method:   "GET",
-		Path:     "/feed/:category",
+		Path:     "/feed/:categoryId",
 		Handlers: []gin.HandlerFunc{restorePageMiddleware, renderFeedComponentCategorized},
 	},
 	{
@@ -63,11 +63,6 @@ var Components = []Route{
 		Method:   "GET",
 		Path:     "/sidebar",
 		Handlers: []gin.HandlerFunc{sessionToUserMiddleware, renderSidebarComponent},
-	},
-	{
-		Method:   "GET",
-		Path:     "/colorModes",
-		Handlers: []gin.HandlerFunc{renderColorModesComponent},
 	},
 	{
 		Method:   "GET",

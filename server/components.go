@@ -26,150 +26,15 @@ func NewGenericView(c *gin.Context) *GenericView {
 
 	view.Branding = loadedConfig.Branding
 
-	var numUsers int64
-	database.Model(&UserModel{}).Count(&numUsers)
-	view.NumUsers = numUsers
-
-	var numPosts int64
-	database.Model(&PostModel{}).Count(&numPosts)
-	view.NumPosts = numPosts
-
 	var categories []CategoryModel
 	database.Find(&categories)
+
+	view.NumUsers = int64(len(categories))
+	view.NumPosts = int64(len(categories))
+
 	view.Categories = categories
 
 	return &view
-}
-
-func renderColorModesComponent(c *gin.Context) {
-	var content = parseTmplFromResources("components/colorModes.html")
-
-	err := content.ExecuteTemplate(c.Writer, "componentBody", nil)
-	if err != nil {
-		c.AbortWithError(500, err)
-	}
-
-	c.Status(200)
-}
-
-type NavigationView struct {
-	GenericView    *GenericView
-	CategoryModels []CategoryModel
-}
-
-func renderNavigationComponent(c *gin.Context) {
-	var categories []CategoryModel
-	err := database.Find(&categories).Error
-	if err != nil {
-		renderErrorAlert(c, "Error fetching categories")
-		return
-	}
-
-	var content = parseTmplFromResources("components/navigation.html")
-
-	err = content.ExecuteTemplate(c.Writer, "componentBody", NavigationView{GenericView: NewGenericView(c), CategoryModels: categories})
-	if err != nil {
-		c.AbortWithError(500, err)
-	}
-
-	c.Status(200)
-}
-
-type FeedView struct {
-	GenericView    *GenericView
-	Posts          []PostModel
-	CurrentOffset  int
-	NextPageOffset int
-	NextPageExists bool
-	LastPageExists bool
-	LastPageOffset int
-}
-
-func renderFeedComponent(c *gin.Context) {
-	var offset int = 0
-
-	if c.Param("offset") != "" {
-		var err error
-		offset, err = strconv.Atoi(c.Param("offset"))
-		if err != nil {
-			renderErrorAlert(c, "invalid offset")
-			return
-		}
-	}
-
-	posts, err := getRecentPosts(5, offset)
-	if err != nil {
-		renderErrorAlert(c, "error fetching posts")
-		return
-	}
-
-	var view = FeedView{
-		GenericView:    NewGenericView(c),
-		Posts:          posts,
-		CurrentOffset:  offset,
-		NextPageOffset: offset + 1,
-	}
-
-	if len(posts) < 5 {
-		view.NextPageExists = false
-	} else {
-		view.NextPageExists = true
-	}
-
-	if offset > 0 {
-		view.LastPageExists = true
-		view.LastPageOffset = offset - 1
-	} else {
-		view.LastPageExists = false
-	}
-
-	var content = parseTmplFromResources("components/feed.html")
-
-	err = content.ExecuteTemplate(c.Writer, "componentBody", view)
-	if err != nil {
-		c.AbortWithError(500, err)
-	}
-
-	c.Status(200)
-}
-
-func renderFeedComponentCategorized(c *gin.Context) {
-	var categoryID int
-
-	if c.Param("category") != "" {
-		var err error
-		categoryID, err = strconv.Atoi(c.Param("category"))
-		if err != nil {
-			renderErrorAlert(c, "invalid category")
-			return
-		}
-	}
-
-	posts, err := getRecentPostsByCategory(categoryID, 10)
-	if err != nil {
-		renderErrorAlert(c, "Error fetching posts")
-		return
-	}
-
-	var content = parseTmplFromResources("components/feed.html")
-
-	err = content.ExecuteTemplate(c.Writer, "componentBody", FeedView{Posts: posts, GenericView: NewGenericView(c)})
-	if err != nil {
-		c.AbortWithError(500, err)
-	}
-
-	c.Status(200)
-}
-
-func renderSidebarComponent(c *gin.Context) {
-	var content = parseTmplFromResources("components/sidebar.html")
-
-	err := content.ExecuteTemplate(c.Writer, "componentBody", NewGenericView(c))
-	if err != nil {
-		c.AbortWithError(500, err)
-	}
-
-	c.Status(200)
 }
 
 type PostView struct {

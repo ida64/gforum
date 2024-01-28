@@ -13,10 +13,13 @@ type LayoutView struct {
 
 func NewLayoutView(c *gin.Context) *LayoutView {
 	var layout LayoutView
-
 	return &layout
 }
 
+/*
+* parseTmplFromResources parses the supplied template files from the resources/templates directory.
+* It returns a template.Template object.
+ */
 func parseTmplFromResources(filenames ...string) *template.Template {
 	var numFiles = len(filenames)
 	var templateFiles = make([]string, numFiles)
@@ -39,24 +42,6 @@ func renderLayoutWithContent(c *gin.Context, content *template.Template, content
 	layout.View = contentTemplateView
 
 	err := content.ExecuteTemplate(c.Writer, "layout", layout)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-/*
-* RenderContent renders the content template.
-* It returns an error if the template could not be rendered.
- */
-func renderContent(c *gin.Context, content *template.Template, contentTemplateView interface{}) error {
-	var view = NewLayoutView(c)
-
-	view.Content = content
-	view.View = contentTemplateView
-
-	err := content.Execute(c.Writer, view)
 	if err != nil {
 		return err
 	}

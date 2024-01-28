@@ -11,10 +11,26 @@ import (
 type PostCommentModel struct {
 	gorm.Model
 
-	ParentID  uint `gorm:"not null"`
-	CreatorID uint `gorm:"not null"`
+	ParentID  uint   `gorm:"not null"`
+	CreatorID uint   `gorm:"not null"`
+	Content   string `gorm:"not null"`
+}
 
-	Content string `gorm:"not null"`
+type CategoryModel struct {
+	gorm.Model
+
+	Name        string `gorm:"not null,uniqueIndex"`
+	Description string `gorm:"not null,default:'none provided'"`
+}
+
+type PostModel struct {
+	gorm.Model
+
+	Title      string `gorm:"not null"`
+	Markdown   string `gorm:"not null"`
+	UserID     uint   `gorm:"not null"`
+	User       UserModel
+	CategoryID uint `gorm:"not null"`
 }
 
 func (comment *PostCommentModel) GetCreator() UserModel {
@@ -26,39 +42,6 @@ func (comment *PostCommentModel) GetCreator() UserModel {
 
 func (comment *PostCommentModel) GetCreatedAt() string {
 	return comment.CreatedAt.Format("January 2, 2006 15:04:05")
-}
-
-type CategoryModel struct {
-	gorm.Model
-
-	Name        string `gorm:"not null,uniqueIndex"`
-	Description string `gorm:"not null,default:'none provided'"`
-}
-
-func createCategory(name string, description string) error {
-	category := CategoryModel{
-		Name:        name,
-		Description: description,
-	}
-
-	err := database.Create(&category).Error
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-type PostModel struct {
-	gorm.Model
-
-	Title    string `gorm:"not null"`
-	Markdown string `gorm:"not null"`
-
-	UserID uint `gorm:"not null"`
-	User   UserModel
-
-	CategoryID uint `gorm:"not null"`
 }
 
 func (post *PostModel) GetCategoryName() string {
