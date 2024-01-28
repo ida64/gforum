@@ -1,6 +1,7 @@
 package main
 
 import (
+	"html/template"
 	"strconv"
 
 	"github.com/dchest/captcha"
@@ -174,7 +175,7 @@ func renderSidebarComponent(c *gin.Context) {
 type PostView struct {
 	GenericView *GenericView
 	Post        PostModel
-	Content     string
+	Content     template.HTML
 
 	IsRestore   bool
 	RestorePath string
@@ -192,7 +193,7 @@ func renderPostComponent(c *gin.Context) {
 
 	var content = parseTmplFromResources("components/post.html")
 
-	err = content.ExecuteTemplate(c.Writer, "componentBody", PostView{Content: post.ToHTML(), GenericView: NewGenericView(c), Post: post})
+	err = content.ExecuteTemplate(c.Writer, "componentBody", PostView{Content: template.HTML(post.ToHTML()), GenericView: NewGenericView(c), Post: post})
 	if err != nil {
 		c.AbortWithError(500, err)
 	}
@@ -227,9 +228,22 @@ func renderUserLoginComponent(c *gin.Context) {
 }
 
 func renderUserProfileComponent(c *gin.Context) {
-	var content = parseTmplFromResources("components/user/profile.html")
+	var content = parseTextTemplatesFromResources("components/user/profile.html")
 
 	err := content.ExecuteTemplate(c.Writer, "componentBody", NewGenericView(c))
+	if err != nil {
+		c.AbortWithError(500, err)
+	}
+
+	c.Status(200)
+}
+
+func renderUserAvatarImageComponent(c *gin.Context) {
+	var userId = getParamterInt(c, "id")
+
+	var content = parseTextTemplatesFromResources("components/user/userIcon.html")
+
+	err := content.ExecuteTemplate(c.Writer, "componentBody", getUser(userId))
 	if err != nil {
 		c.AbortWithError(500, err)
 	}

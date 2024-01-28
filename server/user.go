@@ -136,3 +136,10 @@ func adminRequiredMiddleware(c *gin.Context) {
 
 	c.Next()
 }
+
+func getUser(id int) *UserModel {
+	var user UserModel
+	database.First(&user, id)
+
+	return &user
+}

@@ -6,4 +6,4 @@
 *.db
 
 # Ignore resources/avatars folder
-resources/avatars
+server/resources/avatars

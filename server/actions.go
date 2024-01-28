@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"path/filepath"
 	"strconv"
 
@@ -307,7 +306,7 @@ func handleUserUpdateProfileAction(c *gin.Context) {
 	}
 
 	user.Email = form.Email
-	user.Username = filepath.Clean(form.Username)
+	user.Username = form.Username
 
 	var err error
 
@@ -317,28 +316,6 @@ func handleUserUpdateProfileAction(c *gin.Context) {
 			renderErrorAlert(c, err.Error())
 			return
 		}
-	}
-
-	if form.Username != user.Username {
-		var count int64
-		err = database.Model(&UserModel{}).Where("username = ?", form.Username).Count(&count).Error
-		if err != nil {
-			renderErrorAlert(c, err.Error())
-			return
-		}
-
-		if count > 0 {
-			renderErrorAlert(c, "username is already taken.")
-			return
-		}
-
-		err = os.Rename(filepath.Join(avatarPath, user.Username+avatarExtension), filepath.Join(avatarPath, form.Username+avatarExtension))
-		if err != nil {
-			renderErrorAlert(c, err.Error())
-			return
-		}
-
-		user.Avatar = form.Username + avatarExtension
 	}
 
 	err = userFormValidator.Struct(user)

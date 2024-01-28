@@ -1,7 +1,7 @@
 package main
 
 import (
-	"text/template"
+	"html/template"
 
 	"github.com/gin-gonic/gin"
 )

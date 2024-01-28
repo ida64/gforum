@@ -86,6 +86,11 @@ var Components = []Route{
 	},
 	{
 		Method:   "GET",
+		Path:     "/user/avatar/:id",
+		Handlers: []gin.HandlerFunc{sessionToUserMiddleware, renderUserAvatarImageComponent},
+	},
+	{
+		Method:   "GET",
 		Path:     "/user/composeReply/:id",
 		Handlers: []gin.HandlerFunc{sessionToUserMiddleware, userRequiredMiddleware, renderUserComposeReplyComponent},
 	},

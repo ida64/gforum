@@ -8,7 +8,7 @@
   <h6 class="border-bottom pb-2 mb-0">My Feed</h6>
   {{ range .Posts }}
   <a href="#" hx-get="/post/{{ .ID }}" hx-swap="innerHTML" hx-trigger="click" hx-target="#mainPageContent" hx-push-url="true" hx-boost="true" class="d-flex text-body-secondary pt-2">
-    <img src="{{ .User.Avatar }}" class="me-2" style="width: 32px; height: 32px; border-radius: 25%" />
+    <div id="postContainer_{{ .ID }}" hx-get="/components/user/avatar/{{ .User.ID }}" hx-push-url="false" hx-target="#postContainer_{{ .ID }}" hx-swap="innerHTML" hx-trigger="load" ></div>
     <p class="pb-3 mb-0 small lh-sm border-bottom" style="
         width: 100%;
         overflow: hidden;

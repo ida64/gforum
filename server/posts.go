@@ -4,6 +4,7 @@ import (
 	"github.com/gomarkdown/markdown"
 	"github.com/gomarkdown/markdown/html"
 	"github.com/gomarkdown/markdown/parser"
+	"github.com/microcosm-cc/bluemonday"
 	"gorm.io/gorm"
 )
 
@@ -69,15 +70,17 @@ func (post *PostModel) GetCategoryName() string {
 
 func (post *PostModel) ToHTML() string {
 	extensions := parser.CommonExtensions | parser.AutoHeadingIDs
-
 	parser := parser.NewWithExtensions(extensions)
 
 	htmlFlags := html.CommonFlags | html.HrefTargetBlank
 	opts := html.RendererOptions{Flags: htmlFlags}
-
 	renderer := html.NewRenderer(opts)
 
-	return string(markdown.ToHTML([]byte(post.Markdown), parser, renderer))
+	unsafeHTML := markdown.ToHTML([]byte(post.Markdown), parser, renderer)
+
+	safeHTML := bluemonday.UGCPolicy().SanitizeBytes(unsafeHTML)
+
+	return string(safeHTML)
 }
 
 func getRecentPosts(limit int, offset int) ([]PostModel, error) {
