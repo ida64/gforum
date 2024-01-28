@@ -91,6 +91,11 @@ var Components = []Route{
 	},
 	{
 		Method:   "GET",
+		Path:     "/user/postCommentFeed/:id",
+		Handlers: []gin.HandlerFunc{sessionToUserMiddleware, userRequiredMiddleware, renderUserPostCommentsFeedComponent},
+	},
+	{
+		Method:   "GET",
 		Path:     "/administration/editCategory/:id",
 		Handlers: []gin.HandlerFunc{sessionToUserMiddleware, userRequiredMiddleware, adminRequiredMiddleware, renderAdministratorEditCategoryComponent},
 	},
@@ -111,6 +116,11 @@ var Actions = []Route{
 		Method:   "POST",
 		Path:     "/user/compose",
 		Handlers: []gin.HandlerFunc{sessionToUserMiddleware, userRequiredMiddleware, logActionMiddleware, handleUserComposeAction},
+	},
+	{
+		Method:   "POST",
+		Path:     "/user/composeComment/:id",
+		Handlers: []gin.HandlerFunc{sessionToUserMiddleware, userRequiredMiddleware, logActionMiddleware, handleUserPostCommentAction},
 	},
 	{
 		Method:   "POST",

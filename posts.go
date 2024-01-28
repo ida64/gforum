@@ -16,6 +16,17 @@ type PostCommentModel struct {
 	Content string `gorm:"not null"`
 }
 
+func (comment *PostCommentModel) GetCreator() UserModel {
+	var user UserModel
+	database.First(&user, comment.CreatorID)
+
+	return user
+}
+
+func (comment *PostCommentModel) GetCreatedAt() string {
+	return comment.CreatedAt.Format("January 2, 2006 15:04:05")
+}
+
 type CategoryModel struct {
 	gorm.Model
 

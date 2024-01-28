@@ -10,6 +10,7 @@ import (
 
 type Database struct {
 	Path string `yaml:"path"`
+	DSN  string `yaml:"dsn"`
 }
 
 type Server struct {

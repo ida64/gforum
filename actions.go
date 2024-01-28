@@ -199,6 +199,51 @@ func handleUserComposeAction(c *gin.Context) {
 	c.Header("HX-Redirect", fmt.Sprintf("/post/%d", post.ID))
 }
 
+type UserPostCommentActionForm struct {
+	Content string `form:"inputContent" binding:"required" validate:"required,min=1,max=1024"`
+}
+
+func handleUserPostCommentAction(c *gin.Context) {
+	user, ok := getUserFromContext(c)
+	if !ok {
+		renderErrorAlert(c, "you are not logged in.")
+		return
+	}
+
+	var form UserPostCommentActionForm
+	if err := c.ShouldBind(&form); err != nil {
+		renderErrorAlert(c, err.Error())
+		return
+	}
+
+	err := userFormValidator.Struct(&form)
+	if err != nil {
+		renderErrorAlert(c, err.Error())
+		return
+	}
+
+	var post PostModel
+	err = database.Where("id = ?", c.Param("id")).First(&post).Error
+	if err != nil {
+		renderErrorAlert(c, "invalid post.")
+		return
+	}
+
+	var comment = PostCommentModel{
+		ParentID:  post.ID,
+		CreatorID: user.ID,
+		Content:   form.Content,
+	}
+
+	err = database.Create(&comment).Error
+	if err != nil {
+		renderErrorAlert(c, err.Error())
+		return
+	}
+
+	c.Header("HX-Refresh", "true")
+}
+
 const (
 	avatarPath      = "resources/avatars/"
 	maxFileSize     = 1024 * 1024 * 2 // 2MB

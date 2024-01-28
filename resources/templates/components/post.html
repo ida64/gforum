@@ -27,4 +27,5 @@
 <span hx-get="/components/user/composeReply/{{ .Post.ID }}" hx-swap="innerHTML" hx-trigger="load" hx-target="#sidebar">
 </span>
 {{ end }}
+<div hx-get="/components/user/postCommentFeed/{{ .Post.ID }}" hx-swap="innerHTML" hx-trigger="load"></div>
 {{ end }}

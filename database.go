@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"gorm.io/driver/sqlite"
+	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
@@ -22,7 +22,9 @@ var Models = []interface{}{
 }
 
 func init() {
-	db, err := gorm.Open(sqlite.Open(loadedConfig.Database.Path), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(loadedConfig.Database.DSN), &gorm.Config{
+		DisableForeignKeyConstraintWhenMigrating: true,
+	})
 	if err != nil {
 		log.Fatal(err)
 	}

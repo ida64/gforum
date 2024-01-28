@@ -262,16 +262,63 @@ func renderUserComposeComponent(c *gin.Context) {
 }
 
 func renderUserComposeReplyComponent(c *gin.Context) {
-	var categories []CategoryModel
-	err := database.Find(&categories).Error
+	var id int
+
+	if c.Param("id") != "" {
+		var err error
+		id, err = strconv.Atoi(c.Param("id"))
+		if err != nil {
+			renderErrorAlert(c, "invalid id")
+			return
+		}
+	}
+
+	var post PostModel
+	err := database.Where("id = ?", id).First(&post).Error
 	if err != nil {
-		renderErrorAlert(c, "Error fetching categories")
+		renderErrorAlert(c, "invalid post")
 		return
 	}
 
 	var content = parseTmplFromResources("components/user/composeReply.html")
 
-	err = content.ExecuteTemplate(c.Writer, "componentBody", nil)
+	err = content.ExecuteTemplate(c.Writer, "componentBody", post)
+	if err != nil {
+		c.AbortWithError(500, err)
+	}
+
+	c.Status(200)
+}
+
+func renderUserPostCommentsFeedComponent(c *gin.Context) {
+	var id int
+
+	if c.Param("id") != "" {
+		var err error
+		id, err = strconv.Atoi(c.Param("id"))
+		if err != nil {
+			renderErrorAlert(c, "invalid id")
+			return
+		}
+	}
+
+	var post PostModel
+	err := database.Where("id = ?", id).First(&post).Error
+	if err != nil {
+		renderErrorAlert(c, "invalid post")
+		return
+	}
+
+	var comments []PostCommentModel
+	err = database.Where("parent_id = ?", id).Find(&comments).Error
+	if err != nil {
+		renderErrorAlert(c, "invalid post")
+		return
+	}
+
+	var content = parseTmplFromResources("components/user/postRepliesFeed.html")
+
+	err = content.ExecuteTemplate(c.Writer, "componentBody", comments)
 	if err != nil {
 		c.AbortWithError(500, err)
 	}
