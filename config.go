@@ -5,7 +5,6 @@ import (
 	"log"
 	"os"
 
-	"github.com/joho/godotenv"
 	"gopkg.in/yaml.v3"
 )
 
@@ -53,11 +52,6 @@ func loadConfig(path string) (*Config, error) {
 }
 
 func init() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("error loading .env file")
-	}
-
 	config, err := loadConfig("config.yaml")
 	if err != nil {
 		log.Fatal("error loading config file")
