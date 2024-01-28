@@ -1,0 +1,47 @@
+{{ define "componentBody" }}
+
+<head>
+  <title>{{ .GenericView.Branding.Name }} - My Feed</title>
+</head>
+
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+  <h6 class="border-bottom pb-2 mb-0">My Feed</h6>
+  {{ range .Posts }}
+  <a href="#" hx-get="/post/{{ .ID }}" hx-swap="innerHTML" hx-trigger="click" hx-target="#mainPageContent" hx-push-url="true" hx-boost="true" class="d-flex text-body-secondary pt-2">
+    <img src="{{ .User.Avatar }}" class="me-2" style="width: 32px; height: 32px; border-radius: 25%" />
+    <p class="pb-3 mb-0 small lh-sm border-bottom" style="
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      ">
+      <a href="#" style="text-decoration: none; color: white" hx-get="/post/{{ .ID }}" hx-swap="innerHTML" hx-trigger="click" hx-target="#mainPageContent" hx-push-url="true" class="d-block text-gray-dark">{{ .Title }}</a>
+      <label class="text-gray-dark">
+        Category:
+        <a href="#" style="text-decoration: none; color: white" hx-get="/feed/{{ .CategoryID }}" hx-swap="innerHTML" hx-trigger="click" hx-target="#mainPageContent">{{ .GetCategoryName }}</a>
+        by <b>@{{ .User.Username }}</b>
+      </label>
+    </p>
+  </a>
+  {{ end }}
+  <div class="btn-group d-flex text-body-secondary pt-2">
+    {{ if .LastPageExists }}
+    <a href="#" hx-get="/components/feed/{{ .LastPageOffset }}" hx-swap="innerHTML" hx-trigger="click" hx-target="#mainPageContent" hx-push-url="true" class="btn btn-primary btn-sm" style="text-decoration: none; color: white">
+      Last page
+    </a>
+    {{ else }}
+    <a href="#" class="btn btn-primary disabled btn-sm" style="text-decoration: none; color: white">
+      Last page
+    </a>
+    {{ end }} {{ if .NextPageExists }}
+    <a href="#" hx-get="/components/feed/{{ .NextPageOffset }}" hx-swap="innerHTML" hx-trigger="click" hx-target="#mainPageContent" hx-push-url="true" class="btn btn-primary btn-sm" style="text-decoration: none; color: white">
+      Next page
+    </a>
+    {{ else }}
+    <a href="#" class="btn btn-primary disabled btn-sm" style="text-decoration: none; color: white">
+      Next page
+    </a>
+    {{ end }}
+  </div>
+</div>
+{{ end }}

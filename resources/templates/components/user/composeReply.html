@@ -1,0 +1,16 @@
+{{ define "componentBody" }}
+<div class="my-3 p-3 bg-body rounded shadow-sm dark-mode">
+    <h6 class="border-bottom pb-2 mb-0 container">Add reply</h6>
+    <div class="d-flex text-body-secondary pt-3">
+        <div class="container">
+            <form hx-post="/actions/post/reply" hx-swap="innerHTML" hx-trigger="submit" hx-target="#replyActionResponse">
+                <input type="hidden" name="inputPostID" value="{{ .Post.PostModel.ID }}">
+                <div class="mb-3">
+                    <label for="inputContent" class="form-label">Content</label>
+                    <textarea class="form-control" id="inputContent" name="inputContent" autocomplete="off" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Reply</button>
+        </div>
+    </div>
+</div>
+{{ end }}

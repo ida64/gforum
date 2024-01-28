@@ -1,0 +1,30 @@
+{{ define "componentBody" }}
+
+<head>
+  <title>{{ .GenericView.Branding.Name }} - {{ .Post.Title }}</title>
+</head>
+
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+  <h6 class="border-bottom pb-2 mb-0 container">
+    "{{ .Post.Title }}" by <b>{{ .Post.User.Username }}</b>
+  </h6>
+  <div class="d-flex text-body-secondary pt-3">
+    <div class="container">
+      <div style="
+            max-width: 100%;
+            max-height: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          ">
+        {{ .Content }}
+      </div>
+    </div>
+  </div>
+</div>
+{{ if .GenericView.CurrentUser}}
+<!-- Update the sidebar with the compose reply form. -->
+<span hx-get="/components/user/composeReply/{{ .Post.ID }}" hx-swap="innerHTML" hx-trigger="load" hx-target="#sidebar">
+</span>
+{{ end }}
+{{ end }}

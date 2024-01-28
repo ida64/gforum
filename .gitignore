@@ -1,0 +1,9 @@
+# Ignore .yaml/.yml files
+*.yaml
+*.yml
+
+# Ignore .db files
+*.db
+
+# Ignore resources/avatars folder
+resources/avatars

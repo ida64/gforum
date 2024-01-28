@@ -1,0 +1,24 @@
+{{ define "componentBody" }}
+<div id="sidebar" class="my-3 p-3 bg-body rounded shadow-sm dark-mode">
+    <h6 class="border-bottom pb-2 mb-0 container" style="font-size: 1.2rem; font-weight: bold">
+        {{ .Branding.Name }}
+    </h6>
+    <div class="d-flex text-body-secondary pt-3">
+        <div class="container">
+            {{ if .CurrentUser }}
+            <p style="margin-bottom: 1rem">
+                Welcome back, <b>{{ .CurrentUser.Username }}</b>!
+            </p>
+            {{ else }}
+            <p style="margin-bottom: 1rem">Welcome to {{ .Branding.Name }}!</p>
+            {{ end }}
+
+            <p>
+                Please read the <a href="#" hx-get="/rules" hx-trigger="click" hx-swap="innerHTML" hx-target="#mainPageContent" hx-push-url="true">rules</a> before posting.
+            </p>
+
+            <iframe style="border-radius: 10px" src="https://discord.com/widget?id=1197448322508664852&theme=dark" width="100%" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+        </div>
+    </div>
+</div>
+{{ end }}
