@@ -87,7 +87,7 @@ var Components = []Route{
 	{
 		Method:   "GET",
 		Path:     "/user/composeReply/:id",
-		Handlers: []gin.HandlerFunc{sessionToUserMiddleware, userRequiredMiddleware, renderUserComposeReplyComponent},
+		Handlers: []gin.HandlerFunc{sessionToUserMiddleware, userRequiredMiddleware, renderUserPostComposeReplyComponent},
 	},
 	{
 		Method:   "GET",

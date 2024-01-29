@@ -2,7 +2,6 @@ package main
 
 import (
 	"html/template"
-	"strconv"
 
 	"github.com/dchest/captcha"
 	"github.com/gin-gonic/gin"
@@ -141,11 +140,10 @@ func renderUserComposeComponent(c *gin.Context) {
 	c.Status(200)
 }
 
-func renderUserComposeReplyComponent(c *gin.Context) {
+func renderUserPostComposeReplyComponent(c *gin.Context) {
 	var id int = getParamterInt(c, "id")
 
-	var post PostModel
-	err := database.Where("id = ?", id).First(&post).Error
+	post, err := getPost(id)
 	if err != nil {
 		renderErrorAlert(c, "invalid post")
 		return
@@ -197,16 +195,7 @@ type AdministratorEditCategoryComponentView struct {
 }
 
 func renderAdministratorEditCategoryComponent(c *gin.Context) {
-	var id int
-
-	if c.Param("id") != "" {
-		var err error
-		id, err = strconv.Atoi(c.Param("id"))
-		if err != nil {
-			renderErrorAlert(c, "invalid id")
-			return
-		}
-	}
+	var id int = getParamterInt(c, "id")
 
 	var category CategoryModel
 	err := database.Where("id = ?", id).First(&category).Error

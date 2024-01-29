@@ -26,7 +26,7 @@
   {{ end }}
   <div class="btn-group d-flex text-body-secondary pt-2">
     {{ if .LastPageExists }}
-    <a href="#" hx-get="/components/feed/{{ .LastPageOffset }}" hx-swap="innerHTML" hx-trigger="click" hx-target="#mainPageContent" hx-push-url="true" class="btn btn-primary btn-sm" style="text-decoration: none; color: white">
+    <a href="#" hx-get="/components/feed/{{ .LastPageOffset }}" hx-swap="innerHTML" hx-trigger="click" hx-target="#mainPageContent" hx-push-url="false" class="btn btn-primary btn-sm" style="text-decoration: none; color: white">
       Last page
     </a>
     {{ else }}
@@ -34,7 +34,7 @@
       Last page
     </a>
     {{ end }} {{ if .NextPageExists }}
-    <a href="#" hx-get="/components/feed/{{ .NextPageOffset }}" hx-swap="innerHTML" hx-trigger="click" hx-target="#mainPageContent" hx-push-url="true" class="btn btn-primary btn-sm" style="text-decoration: none; color: white">
+    <a href="#" hx-get="/components/feed/{{ .NextPageOffset }}" hx-swap="innerHTML" hx-trigger="click" hx-target="#mainPageContent" hx-push-url="false" class="btn btn-primary btn-sm" style="text-decoration: none; color: white">
       Next page
     </a>
     {{ else }}
