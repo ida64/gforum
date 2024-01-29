@@ -10,7 +10,7 @@
             <div class="mb-3">
                 <img src={{ .CurrentUser.Avatar }} alt="User Avatar" class="img-fluid" height="100" width="100" />
             </div>
-            <form hx-post="/actions/user/uploadAvatar" hx-swap="innerHTML" hx-target="#updateProfileActionResponse" hx-trigger="submit" enctype="multipart/form-data">
+            <form hx-put="/actions/user/avatar" hx-swap="innerHTML" hx-target="#updateProfileActionResponse" hx-trigger="submit" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="inputAvatar" class="form-label">Avatar</label>
                     <input type="file" class="form-control" id="inputAvatar" name="inputAvatar" autocomplete="off" required />

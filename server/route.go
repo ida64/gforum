@@ -123,8 +123,8 @@ var Actions = []Route{
 		Handlers: []gin.HandlerFunc{sessionToUserMiddleware, userRequiredMiddleware, logActionMiddleware, handleUserPostCommentAction},
 	},
 	{
-		Method:   "POST",
-		Path:     "/user/uploadAvatar",
+		Method:   "PUT",
+		Path:     "/user/avatar",
 		Handlers: []gin.HandlerFunc{sessionToUserMiddleware, userRequiredMiddleware, logActionMiddleware, handleUserUploadAvatarAction},
 	},
 	{

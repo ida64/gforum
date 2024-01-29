@@ -159,6 +159,11 @@ func renderUserPostComposeReplyComponent(c *gin.Context) {
 	c.Status(200)
 }
 
+type UserPostCommentsFeedView struct {
+	GV       *GenericView
+	Comments []PostCommentModel
+}
+
 func renderUserPostCommentsFeedComponent(c *gin.Context) {
 	var id int = getParamterInt(c, "id")
 
@@ -170,7 +175,7 @@ func renderUserPostCommentsFeedComponent(c *gin.Context) {
 
 	var content = parseTmplFromResources("components/user/postRepliesFeed.html")
 
-	err = content.ExecuteTemplate(c.Writer, "componentBody", comments)
+	err = content.ExecuteTemplate(c.Writer, "componentBody", UserPostCommentsFeedView{GV: NewGenericView(c), Comments: comments})
 	if err != nil {
 		c.AbortWithError(500, err)
 	}

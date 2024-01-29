@@ -2,7 +2,8 @@
 <div class="my-3 p-3 bg-body rounded shadow-sm">
     <h6 class="border-bottom pb-2 mb-0 container">Replies</h6>
     {{ if . }}
-    {{ range . }}
+    {{ $view := .GV }}
+    {{ range .Comments }}
     <div class="d-flex text-muted pt-3">
         <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
             <div class="d-flex justify-content-space-between">
@@ -14,7 +15,6 @@
             <div class="container bg-light p-2 mt-2 rounded">
                 <pre class="mb-0 text-dark">{{ .Content }}</pre>
             </div>
-
         </div>
     </div>
     {{ end }}
