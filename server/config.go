@@ -28,6 +28,10 @@ type Config struct {
 
 var loadedConfig *Config
 
+/*
+* loadConfig parses the config from the specified path and returns it.
+* It returns an error if the config could not be loaded.
+ */
 func loadConfig(path string) (*Config, error) {
 	file, err := os.Open(path)
 	if err != nil {

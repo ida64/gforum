@@ -26,8 +26,11 @@ func NewGenericView(c *gin.Context) *GenericView {
 
 	view.Branding = loadedConfig.Branding
 
-	var categories []CategoryModel
-	database.Find(&categories)
+	categories, err := getCategories()
+	if err != nil {
+		renderErrorAlert(c, "error fetching categories")
+		return nil
+	}
 
 	view.NumUsers = int64(len(categories))
 	view.NumPosts = int64(len(categories))
@@ -47,12 +50,11 @@ type PostView struct {
 }
 
 func renderPostComponent(c *gin.Context) {
-	postID := c.Param("id")
+	var id int = getParamterInt(c, "id")
 
-	var post PostModel
-	err := database.Preload("User").Where("id = ?", postID).First(&post).Error
+	post, err := getPost(id)
 	if err != nil {
-		renderErrorAlert(c, "Error fetching post")
+		renderErrorAlert(c, "invalid post")
 		return
 	}
 
@@ -123,10 +125,9 @@ type ComposeView struct {
 }
 
 func renderUserComposeComponent(c *gin.Context) {
-	var categories []CategoryModel
-	err := database.Find(&categories).Error
+	categories, err := getCategories()
 	if err != nil {
-		renderErrorAlert(c, "Error fetching categories")
+		renderErrorAlert(c, "error fetching categories")
 		return
 	}
 
@@ -141,16 +142,7 @@ func renderUserComposeComponent(c *gin.Context) {
 }
 
 func renderUserComposeReplyComponent(c *gin.Context) {
-	var id int
-
-	if c.Param("id") != "" {
-		var err error
-		id, err = strconv.Atoi(c.Param("id"))
-		if err != nil {
-			renderErrorAlert(c, "invalid id")
-			return
-		}
-	}
+	var id int = getParamterInt(c, "id")
 
 	var post PostModel
 	err := database.Where("id = ?", id).First(&post).Error
@@ -170,26 +162,9 @@ func renderUserComposeReplyComponent(c *gin.Context) {
 }
 
 func renderUserPostCommentsFeedComponent(c *gin.Context) {
-	var id int
+	var id int = getParamterInt(c, "id")
 
-	if c.Param("id") != "" {
-		var err error
-		id, err = strconv.Atoi(c.Param("id"))
-		if err != nil {
-			renderErrorAlert(c, "invalid id")
-			return
-		}
-	}
-
-	var post PostModel
-	err := database.Where("id = ?", id).First(&post).Error
-	if err != nil {
-		renderErrorAlert(c, "invalid post")
-		return
-	}
-
-	var comments []PostCommentModel
-	err = database.Where("parent_id = ?", id).Find(&comments).Error
+	comments, err := getPostComments(id)
 	if err != nil {
 		renderErrorAlert(c, "invalid post")
 		return
@@ -198,17 +173,6 @@ func renderUserPostCommentsFeedComponent(c *gin.Context) {
 	var content = parseTmplFromResources("components/user/postRepliesFeed.html")
 
 	err = content.ExecuteTemplate(c.Writer, "componentBody", comments)
-	if err != nil {
-		c.AbortWithError(500, err)
-	}
-
-	c.Status(200)
-}
-
-func renderRulesComponent(c *gin.Context) {
-	var content = parseTmplFromResources("components/rules.html")
-
-	err := content.ExecuteTemplate(c.Writer, "componentBody", nil)
 	if err != nil {
 		c.AbortWithError(500, err)
 	}
@@ -259,6 +223,17 @@ func renderAdministratorEditCategoryComponent(c *gin.Context) {
 	}
 
 	err = content.ExecuteTemplate(c.Writer, "componentBody", view)
+	if err != nil {
+		c.AbortWithError(500, err)
+	}
+
+	c.Status(200)
+}
+
+func renderRulesComponent(c *gin.Context) {
+	var content = parseTmplFromResources("components/rules.html")
+
+	err := content.ExecuteTemplate(c.Writer, "componentBody", nil)
 	if err != nil {
 		c.AbortWithError(500, err)
 	}

@@ -137,7 +137,7 @@ func handleUserLoginAction(c *gin.Context) {
 
 	c.Header("HX-Refresh", "true")
 
-	c.Abort()
+	c.Status(200)
 }
 
 type UserCreatePostActionForm struct {
@@ -195,6 +195,8 @@ func handleUserComposeAction(c *gin.Context) {
 	}
 
 	c.Header("HX-Redirect", fmt.Sprintf("/post/%d", post.ID))
+
+	c.Status(200)
 }
 
 type UserPostCommentActionForm struct {

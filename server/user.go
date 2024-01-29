@@ -1,30 +1,13 @@
 package main
 
 import (
-	"crypto/rand"
 	"fmt"
 	"net/http"
-
-	"math/big"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
-
-func generateRandomString(length int) string {
-	const alphanumeric = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-	var builder strings.Builder
-	builder.Grow(length)
-
-	for i := 0; i < length; i++ {
-		randomIndex, _ := rand.Int(rand.Reader, big.NewInt(int64(len(alphanumeric))))
-		builder.WriteByte(alphanumeric[randomIndex.Int64()])
-	}
-
-	return builder.String()
-}
 
 type UserModel struct {
 	gorm.Model
@@ -106,13 +89,13 @@ func sessionToUserMiddleware(c *gin.Context) {
 func userRequiredMiddleware(c *gin.Context) {
 	user, ok := getUserFromContext(c)
 	if !ok {
-		c.Redirect(http.StatusFound, "/login")
+		c.Redirect(http.StatusFound, "/user/login")
 		c.Abort()
 		return
 	}
 
 	if user.IsSuspended {
-		c.Redirect(http.StatusFound, "/login")
+		c.Redirect(http.StatusFound, "/user/login")
 		c.Abort()
 		return
 	}
@@ -123,13 +106,13 @@ func userRequiredMiddleware(c *gin.Context) {
 func adminRequiredMiddleware(c *gin.Context) {
 	user, ok := getUserFromContext(c)
 	if !ok {
-		c.Redirect(http.StatusFound, "/login")
+		c.Redirect(http.StatusFound, "/user/login")
 		c.Abort()
 		return
 	}
 
 	if !user.IsAdministrator {
-		c.Redirect(http.StatusFound, "/login")
+		c.Redirect(http.StatusFound, "/user/login")
 		c.Abort()
 		return
 	}

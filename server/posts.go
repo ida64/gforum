@@ -23,6 +23,20 @@ type CategoryModel struct {
 	Description string `gorm:"not null,default:'none provided'"`
 }
 
+/*
+* getCategories returns all categories in the database.
+* It returns an error if the categories could not be fetched.
+ */
+func getCategories() ([]CategoryModel, error) {
+	var categories []CategoryModel
+	err := database.Find(&categories).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return categories, nil
+}
+
 type PostModel struct {
 	gorm.Model
 
@@ -64,6 +78,26 @@ func (post *PostModel) ToHTML() string {
 	safeHTML := bluemonday.UGCPolicy().SanitizeBytes(unsafeHTML)
 
 	return string(safeHTML)
+}
+
+func getPost(id int) (PostModel, error) {
+	var post PostModel
+	err := database.Preload("User").Where("id = ?", id).First(&post).Error
+	if err != nil {
+		return PostModel{}, err
+	}
+
+	return post, nil
+}
+
+func getPostComments(id int) ([]PostCommentModel, error) {
+	var comments []PostCommentModel
+	err := database.Where("parent_id = ?", id).Find(&comments).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return comments, nil
 }
 
 func getRecentPosts(limit int, offset int) ([]PostModel, error) {

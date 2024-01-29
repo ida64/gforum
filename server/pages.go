@@ -32,7 +32,7 @@ func renderRootIndexPage(c *gin.Context) {
 
 	err := renderLayoutWithContent(c, content, RootIndexView{GenericView: NewGenericView(c)})
 	if err != nil {
-		c.String(500, "Error rendering layout: %s", err)
+		c.String(500, "error rendering layout: %s", err)
 		return
 	}
 
@@ -44,7 +44,7 @@ func restorePageContent(c *gin.Context, path string) {
 
 	err := renderLayoutWithContent(c, content, NewRootIndexViewWithRestore(c, path))
 	if err != nil {
-		c.String(500, "Error rendering layout: %s", err)
+		c.String(500, "error rendering layout: %s", err)
 		return
 	}
 
