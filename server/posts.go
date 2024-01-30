@@ -20,7 +20,7 @@ type CategoryModel struct {
 	gorm.Model
 
 	Name        string `gorm:"not null,uniqueIndex"`
-	Description string `gorm:"not null,default:'none provided'"`
+	Description string `gorm:"not null,default:''"`
 }
 
 /*

@@ -15,7 +15,7 @@ func renderNavigationComponent(c *gin.Context) {
 		return
 	}
 
-	var content = parseTmplFromResources("components/navigation.html")
+	var content = parseHTMLTemplatesFromResources("components/navigation.html")
 
 	err = content.ExecuteTemplate(c.Writer, "componentBody", NavigationView{GenericView: NewGenericView(c), CategoryModels: categories})
 	if err != nil {
@@ -26,7 +26,7 @@ func renderNavigationComponent(c *gin.Context) {
 }
 
 func renderSidebarComponent(c *gin.Context) {
-	var content = parseTmplFromResources("components/sidebar.html")
+	var content = parseHTMLTemplatesFromResources("components/sidebar.html")
 
 	err := content.ExecuteTemplate(c.Writer, "componentBody", NewGenericView(c))
 	if err != nil {

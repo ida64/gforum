@@ -57,7 +57,7 @@ func renderPostComponent(c *gin.Context) {
 		return
 	}
 
-	var content = parseTmplFromResources("components/post.html")
+	var content = parseHTMLTemplatesFromResources("components/post.html")
 
 	err = content.ExecuteTemplate(c.Writer, "componentBody", PostView{Content: template.HTML(post.ToHTML()), GenericView: NewGenericView(c), Post: post})
 	if err != nil {
@@ -72,7 +72,7 @@ type UserRegisterView struct {
 }
 
 func renderUserRegisterComponent(c *gin.Context) {
-	var content = parseTmplFromResources("components/user/register.html")
+	var content = parseHTMLTemplatesFromResources("components/user/register.html")
 
 	err := content.ExecuteTemplate(c.Writer, "componentBody", UserRegisterView{CaptchaID: captcha.New()})
 	if err != nil {
@@ -83,7 +83,7 @@ func renderUserRegisterComponent(c *gin.Context) {
 }
 
 func renderUserLoginComponent(c *gin.Context) {
-	var content = parseTmplFromResources("components/user/login.html")
+	var content = parseHTMLTemplatesFromResources("components/user/login.html")
 
 	err := content.ExecuteTemplate(c.Writer, "componentBody", nil)
 	if err != nil {
@@ -130,7 +130,7 @@ func renderUserComposeComponent(c *gin.Context) {
 		return
 	}
 
-	var content = parseTmplFromResources("components/user/compose.html")
+	var content = parseHTMLTemplatesFromResources("components/user/compose.html")
 
 	err = content.ExecuteTemplate(c.Writer, "componentBody", ComposeView{GenericView: NewGenericView(c), CategoryModels: categories, CaptchaID: captcha.New()})
 	if err != nil {
@@ -149,7 +149,7 @@ func renderUserPostComposeReplyComponent(c *gin.Context) {
 		return
 	}
 
-	var content = parseTmplFromResources("components/user/composeReply.html")
+	var content = parseHTMLTemplatesFromResources("components/user/composeReply.html")
 
 	err = content.ExecuteTemplate(c.Writer, "componentBody", post)
 	if err != nil {
@@ -173,7 +173,7 @@ func renderUserPostCommentsFeedComponent(c *gin.Context) {
 		return
 	}
 
-	var content = parseTmplFromResources("components/user/postRepliesFeed.html")
+	var content = parseHTMLTemplatesFromResources("components/user/postRepliesFeed.html")
 
 	err = content.ExecuteTemplate(c.Writer, "componentBody", UserPostCommentsFeedView{GV: NewGenericView(c), Comments: comments})
 	if err != nil {
@@ -184,7 +184,7 @@ func renderUserPostCommentsFeedComponent(c *gin.Context) {
 }
 
 func renderAdministrationMainComponent(c *gin.Context) {
-	var content = parseTmplFromResources("components/administration/main.html")
+	var content = parseHTMLTemplatesFromResources("components/administration/main.html")
 
 	err := content.ExecuteTemplate(c.Writer, "componentBody", NewGenericView(c))
 	if err != nil {
@@ -209,7 +209,7 @@ func renderAdministratorEditCategoryComponent(c *gin.Context) {
 		return
 	}
 
-	var content = parseTmplFromResources("components/administration/editCategory.html")
+	var content = parseHTMLTemplatesFromResources("components/administration/editCategory.html")
 
 	var view = AdministratorEditCategoryComponentView{
 		GenericView: NewGenericView(c),
@@ -225,7 +225,7 @@ func renderAdministratorEditCategoryComponent(c *gin.Context) {
 }
 
 func renderRulesComponent(c *gin.Context) {
-	var content = parseTmplFromResources("components/rules.html")
+	var content = parseHTMLTemplatesFromResources("components/rules.html")
 
 	err := content.ExecuteTemplate(c.Writer, "componentBody", nil)
 	if err != nil {

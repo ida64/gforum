@@ -28,7 +28,7 @@ func NewRootIndexViewWithRestore(c *gin.Context, path string) *RootIndexView {
 }
 
 func renderRootIndexPage(c *gin.Context) {
-	var content = parseTmplFromResources("layout.html", "root/index.html")
+	var content = parseHTMLTemplatesFromResources("layout.html", "root/index.html")
 
 	err := renderLayoutWithContent(c, content, RootIndexView{GenericView: NewGenericView(c)})
 	if err != nil {
@@ -40,7 +40,7 @@ func renderRootIndexPage(c *gin.Context) {
 }
 
 func restorePageContent(c *gin.Context, path string) {
-	var content = parseTmplFromResources("layout.html", "root/index.html")
+	var content = parseHTMLTemplatesFromResources("layout.html", "root/index.html")
 
 	err := renderLayoutWithContent(c, content, NewRootIndexViewWithRestore(c, path))
 	if err != nil {

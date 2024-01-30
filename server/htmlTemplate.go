@@ -17,10 +17,10 @@ func NewLayoutView(c *gin.Context) *LayoutView {
 }
 
 /*
-* parseTmplFromResources parses the supplied template files from the resources/templates directory.
+* parseHTMLTemplatesFromResources parses the supplied template files from the resources/templates directory.
 * It returns a template.Template object.
  */
-func parseTmplFromResources(filenames ...string) *template.Template {
+func parseHTMLTemplatesFromResources(filenames ...string) *template.Template {
 	var numFiles = len(filenames)
 	var templateFiles = make([]string, numFiles)
 
@@ -55,7 +55,7 @@ type Alert struct {
 }
 
 func renderErrorAlert(c *gin.Context, message string) {
-	var content = parseTmplFromResources("components/alerts/error.html")
+	var content = parseHTMLTemplatesFromResources("components/alerts/error.html")
 
 	err := content.ExecuteTemplate(c.Writer, "componentBody", &Alert{Message: message})
 	if err != nil {
@@ -66,7 +66,7 @@ func renderErrorAlert(c *gin.Context, message string) {
 }
 
 func renderSuccessAlert(c *gin.Context, message string, autoDelete bool) {
-	var content = parseTmplFromResources("components/alerts/success.html")
+	var content = parseHTMLTemplatesFromResources("components/alerts/success.html")
 
 	err := content.ExecuteTemplate(c.Writer, "componentBody", &Alert{Message: message, AutoDelete: autoDelete})
 	if err != nil {

@@ -34,7 +34,7 @@ func renderFeedComponent(c *gin.Context) {
 		view.LastPageOffset = offset - 1
 	}
 
-	content := parseTmplFromResources("components/feed.html")
+	content := parseHTMLTemplatesFromResources("components/feed.html")
 
 	if err := content.ExecuteTemplate(c.Writer, "componentBody", view); err != nil {
 		c.AbortWithError(500, err)
@@ -53,7 +53,7 @@ func renderFeedComponentCategorized(c *gin.Context) {
 		return
 	}
 
-	var content = parseTmplFromResources("components/feed.html")
+	var content = parseHTMLTemplatesFromResources("components/feed.html")
 
 	err = content.ExecuteTemplate(c.Writer, "componentBody", FeedView{Posts: posts, GenericView: NewGenericView(c)})
 	if err != nil {
