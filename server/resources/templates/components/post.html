@@ -2,6 +2,34 @@
 
 <head>
   <title>{{ .GenericView.Branding.Name }} - {{ .Post.Title }}</title>
+
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="{{ .Post.Title }}">
+  <meta name="description" content="
+  '{{ .Post.Title }}' by {{ .Post.User.Username }}
+  
+  {{ .Content }}
+  ">
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://nodiscard.net/" />
+  <meta property="og:title" content="{{ .Post.Title }}" />
+  <meta property="og:description" content="
+  '{{ .Post.Title }}' by {{ .Post.User.Username }}
+  
+  {{ .Content }}
+  ">
+
+  <!-- Twitter -->
+  <meta property="twitter:url" content="https://nodiscard.net" />
+  <meta property="twitter:title" content="{{ .Post.Title }}" />
+  <meta property="twitter:description" content="
+  '{{ .Post.Title }}' by {{ .Post.User.Username }}
+  
+  {{ .Content }}
+  ">
+  
+  
 </head>
 
 <div class="my-3 p-3 bg-body rounded shadow-sm">
