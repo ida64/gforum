@@ -3,13 +3,6 @@
 <head>
   <title>{{ .GenericView.Branding.Name }} - {{ .Post.Title }}</title>
 
-  <!-- Primary Meta Tags -->
-  <meta name="title" content="{{ .Post.Title }}">
-  <meta name="description" content="
-  '{{ .Post.Title }}' by {{ .Post.User.Username }}
-  
-  {{ .Content }}
-  ">
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://nodiscard.net/" />
@@ -28,8 +21,6 @@
   
   {{ .Content }}
   ">
-  
-  
 </head>
 
 <div class="my-3 p-3 bg-body rounded shadow-sm">
