@@ -82,7 +82,7 @@ func (post *PostModel) ToHTML() string {
 
 func getPost(id int) (PostModel, error) {
 	var post PostModel
-	err := database.Preload("User").Where("id = ?", id).First(&post).Error
+	err := database.Preload("User").First(&post, id).Error
 	if err != nil {
 		return PostModel{}, err
 	}

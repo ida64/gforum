@@ -59,7 +59,12 @@ func renderPostComponent(c *gin.Context) {
 
 	var content = parseHTMLTemplatesFromResources("components/post.html")
 
-	err = content.ExecuteTemplate(c.Writer, "componentBody", PostView{Content: template.HTML(post.ToHTML()), GenericView: NewGenericView(c), Post: post})
+	err = content.ExecuteTemplate(c.Writer, "componentBody", PostView{
+		Content:     template.HTML(post.ToHTML()),
+		GenericView: NewGenericView(c),
+		Post:        post,
+	})
+
 	if err != nil {
 		c.AbortWithError(500, err)
 	}

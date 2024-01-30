@@ -2,6 +2,7 @@ package main
 
 import (
 	"html/template"
+	"sync"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,6 +17,11 @@ func NewLayoutView(c *gin.Context) *LayoutView {
 	return &layout
 }
 
+var (
+	htmlTemplateCache     = make(map[string]*template.Template)
+	htmlTemplateCacheLock sync.RWMutex
+)
+
 /*
 * parseHTMLTemplatesFromResources parses the supplied template files from the resources/templates directory.
 * It returns a template.Template object.
@@ -28,7 +34,25 @@ func parseHTMLTemplatesFromResources(filenames ...string) *template.Template {
 		templateFiles[i] = "resources/templates/" + filenames[i]
 	}
 
-	return template.Must(template.ParseFiles(templateFiles...))
+	htmlTemplateCacheLock.RLock()
+	cachedTemplate, ok := htmlTemplateCache[templateFiles[0]]
+	htmlTemplateCacheLock.RUnlock()
+
+	if ok {
+		return cachedTemplate
+	}
+
+	htmlTemplateCacheLock.Lock()
+	defer htmlTemplateCacheLock.Unlock()
+
+	tmpl, err := template.ParseFiles(templateFiles...)
+	if err != nil {
+		panic(err)
+	}
+
+	htmlTemplateCache[templateFiles[0]] = tmpl
+
+	return tmpl
 }
 
 /*

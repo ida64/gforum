@@ -1,7 +1,13 @@
 package main
 
 import (
+	"sync"
 	"text/template"
+)
+
+var (
+	textTemplateCache     = make(map[string]*template.Template)
+	textTemplateCacheLock sync.RWMutex
 )
 
 /*
@@ -16,5 +22,24 @@ func parseTextTemplatesFromResources(filenames ...string) *template.Template {
 		templateFiles[i] = "resources/templates/" + filenames[i]
 	}
 
-	return template.Must(template.ParseFiles(templateFiles...))
+	textTemplateCacheLock.RLock()
+	cachedTemplate, ok := textTemplateCache[templateFiles[0]]
+	textTemplateCacheLock.RUnlock()
+
+	if ok {
+		return cachedTemplate
+	}
+
+	textTemplateCacheLock.Lock()
+	defer textTemplateCacheLock.Unlock()
+
+	tmpl, err := template.ParseFiles(templateFiles...)
+	if err != nil {
+		panic(err)
+	}
+
+	textTemplateCache[templateFiles[0]] = tmpl
+
+	return tmpl
+
 }
