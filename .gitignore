@@ -4,6 +4,7 @@
 
 # Ignore .db files
 *.db
+*.sqlite
 
 # Ignore resources/avatars folder
 server/resources/avatars
