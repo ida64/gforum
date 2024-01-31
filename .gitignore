@@ -1,6 +1,6 @@
 # Ignore .yaml/.yml files
-*.yaml
-*.yml
+server/*.yaml
+server/*.yml
 
 # Ignore .db files
 *.db
