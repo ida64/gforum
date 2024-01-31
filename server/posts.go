@@ -80,14 +80,23 @@ func (post *PostModel) ToHTML() string {
 	return string(safeHTML)
 }
 
+var postCache = make(map[int]PostModel)
+
 func getPost(id int) (PostModel, error) {
-	var post PostModel
-	err := database.Preload("User").First(&post, id).Error
+	post, ok := postCache[id]
+	if ok {
+		return post, nil
+	}
+
+	var postModel PostModel
+	err := database.Preload("User").First(&postModel, id).Error
 	if err != nil {
 		return PostModel{}, err
 	}
 
-	return post, nil
+	postCache[id] = postModel
+
+	return postModel, nil
 }
 
 func getPostComments(id int) ([]PostCommentModel, error) {
