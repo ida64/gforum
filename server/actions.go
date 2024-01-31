@@ -34,7 +34,7 @@ func handleUserLogoutAction(c *gin.Context) {
 	renderSuccessAlert(c, "You have been logged out.", true)
 }
 
-var userFormValidator = validator.New(validator.WithRequiredStructEnabled())
+var formValidator = validator.New(validator.WithRequiredStructEnabled())
 
 type UserRegisterActionForm struct {
 	Username        string `form:"inputUsername" binding:"required" validate:"required,min=4,max=32"`
@@ -51,7 +51,7 @@ func handleUserRegisterAction(c *gin.Context) {
 		return
 	}
 
-	err := userFormValidator.Struct(&form)
+	err := formValidator.Struct(&form)
 	if err != nil {
 		renderErrorAlert(c, err.Error())
 		return
@@ -73,7 +73,7 @@ func handleUserRegisterAction(c *gin.Context) {
 		return
 	}
 
-	err = userFormValidator.Struct(&user)
+	err = formValidator.Struct(&user)
 	if err != nil {
 		renderErrorAlert(c, err.Error())
 		return
@@ -108,7 +108,7 @@ func handleUserLoginAction(c *gin.Context) {
 		return
 	}
 
-	err := userFormValidator.Struct(&form)
+	err := formValidator.Struct(&form)
 	if err != nil {
 		renderErrorAlert(c, err.Error())
 		return
@@ -163,7 +163,7 @@ func handleUserComposeAction(c *gin.Context) {
 		return
 	}
 
-	err := userFormValidator.Struct(&form)
+	err := formValidator.Struct(&form)
 	if err != nil {
 		renderErrorAlert(c, err.Error())
 		return
@@ -216,7 +216,7 @@ func handleUserPostCommentAction(c *gin.Context) {
 		return
 	}
 
-	err := userFormValidator.Struct(&form)
+	err := formValidator.Struct(&form)
 	if err != nil {
 		renderErrorAlert(c, err.Error())
 		return
@@ -320,7 +320,7 @@ func handleUserUpdateProfileAction(c *gin.Context) {
 		}
 	}
 
-	err = userFormValidator.Struct(user)
+	err = formValidator.Struct(user)
 	if err != nil {
 		renderErrorAlert(c, err.Error())
 		return
@@ -378,7 +378,7 @@ func handleAdministrationAddCategoryAction(c *gin.Context) {
 		return
 	}
 
-	err := userFormValidator.Struct(&form)
+	err := formValidator.Struct(&form)
 	if err != nil {
 		renderErrorAlert(c, err.Error())
 		return
@@ -407,7 +407,7 @@ func handleAdministrationEditCategoryAction(c *gin.Context) {
 		return
 	}
 
-	err := userFormValidator.Struct(&form)
+	err := formValidator.Struct(&form)
 	if err != nil {
 		renderErrorAlert(c, err.Error())
 		return
