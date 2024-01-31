@@ -206,7 +206,7 @@ type UserPostCommentActionForm struct {
 func handleUserPostCommentAction(c *gin.Context) {
 	user, ok := getUserFromContext(c)
 	if !ok {
-		renderErrorAlert(c, "you are not logged in.")
+		renderError(c, ErrUserNotLoggedIn)
 		return
 	}
 
@@ -222,10 +222,11 @@ func handleUserPostCommentAction(c *gin.Context) {
 		return
 	}
 
-	var post PostModel
-	err = database.Where("id = ?", c.Param("id")).First(&post).Error
+	var id int = getParamterInt(c, "id")
+
+	post, err := getPost(id)
 	if err != nil {
-		renderErrorAlert(c, "invalid post.")
+		renderError(c, err)
 		return
 	}
 
@@ -241,7 +242,7 @@ func handleUserPostCommentAction(c *gin.Context) {
 		return
 	}
 
-	c.Header("HX-Refresh", "true")
+	renderPostComponent(c)
 }
 
 const (

@@ -14,7 +14,7 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
           <ul class="dropdown-menu">
-            {{ range .CategoryModels }}
+            {{ range .GenericView.Categories }}
             <li>
               <a class="dropdown-item" href="#" hx-get="/feed/{{.ID}}" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-target="#mainPageContent">{{.Name}}</a>
             </li>

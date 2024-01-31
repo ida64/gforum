@@ -131,7 +131,7 @@ type ComposeView struct {
 func renderUserComposeComponent(c *gin.Context) {
 	categories, err := getCategories()
 	if err != nil {
-		renderErrorAlert(c, "error fetching categories")
+		renderError(c, ErrCategoryNotFound)
 		return
 	}
 
@@ -150,7 +150,7 @@ func renderUserPostComposeReplyComponent(c *gin.Context) {
 
 	post, err := getPost(id)
 	if err != nil {
-		renderErrorAlert(c, "invalid post")
+		renderError(c, ErrPostNotFound)
 		return
 	}
 
@@ -174,7 +174,7 @@ func renderUserPostCommentsFeedComponent(c *gin.Context) {
 
 	comments, err := getPostComments(id)
 	if err != nil {
-		renderErrorAlert(c, "invalid post")
+		renderError(c, ErrPostNotFound)
 		return
 	}
 
@@ -210,7 +210,7 @@ func renderAdministratorEditCategoryComponent(c *gin.Context) {
 	var category CategoryModel
 	err := database.Where("id = ?", id).First(&category).Error
 	if err != nil {
-		renderErrorAlert(c, "invalid category")
+		renderError(c, ErrCategoryNotFound)
 		return
 	}
 

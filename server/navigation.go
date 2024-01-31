@@ -3,21 +3,13 @@ package main
 import "github.com/gin-gonic/gin"
 
 type NavigationView struct {
-	GenericView    *GenericView
-	CategoryModels []CategoryModel
+	GenericView *GenericView
 }
 
 func renderNavigationComponent(c *gin.Context) {
-	var categories []CategoryModel
-	err := database.Find(&categories).Error
-	if err != nil {
-		renderErrorAlert(c, "error fetching categories")
-		return
-	}
-
 	var content = parseHTMLTemplatesFromResources("components/navigation.html")
 
-	err = content.ExecuteTemplate(c.Writer, "componentBody", NavigationView{GenericView: NewGenericView(c), CategoryModels: categories})
+	err := content.ExecuteTemplate(c.Writer, "componentBody", NavigationView{GenericView: NewGenericView(c)})
 	if err != nil {
 		c.AbortWithError(500, err)
 	}

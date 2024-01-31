@@ -3,8 +3,10 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/robfig/go-cache"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
@@ -78,7 +80,6 @@ func sessionToUserMiddleware(c *gin.Context) {
 	var user UserModel
 	err = database.Where("token = ?", token).First(&user).Error
 	if err != nil {
-		fmt.Println(err)
 		c.Next()
 		return
 	}
@@ -120,9 +121,20 @@ func adminRequiredMiddleware(c *gin.Context) {
 	c.Next()
 }
 
-func getUser(id int) *UserModel {
-	var user UserModel
-	database.First(&user, id)
+var userCache = cache.New(5*time.Minute, 10*time.Minute)
 
-	return &user
+func getUser(id int) *UserModel {
+	var identifier string = fmt.Sprintf("%d", id)
+
+	user, ok := userCache.Get(identifier)
+	if ok {
+		return user.(*UserModel)
+	}
+
+	var userModel UserModel
+	database.First(&userModel, id)
+
+	userCache.Set(identifier, &userModel, 5*time.Minute)
+
+	return &userModel
 }

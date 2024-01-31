@@ -3,7 +3,7 @@
     <h6 class="border-bottom pb-2 mb-0 container">Add reply</h6>
     <div class="d-flex text-body-secondary pt-3">
         <div class="container">
-            <form hx-post="/actions/user/composeComment/{{ .ID }}" hx-swap="innerHTML" hx-trigger="submit" hx-target="#replyActionResponse">
+            <form hx-post="/actions/user/composeComment/{{ .ID }}" hx-swap="innerHTML" hx-trigger="submit" hx-target="#mainPageContent">
                 <input type="hidden" name="inputPostID" value="{{ .ID }}">
                 <div class="mb-3">
                     <label for="inputContent" class="form-label">Content</label>

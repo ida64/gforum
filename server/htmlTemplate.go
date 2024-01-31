@@ -89,6 +89,10 @@ func renderErrorAlert(c *gin.Context, message string) {
 	c.Status(200)
 }
 
+func renderError(c *gin.Context, err error) {
+	renderErrorAlert(c, err.Error())
+}
+
 func renderSuccessAlert(c *gin.Context, message string, autoDelete bool) {
 	var content = parseHTMLTemplatesFromResources("components/alerts/success.html")
 
