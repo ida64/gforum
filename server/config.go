@@ -9,9 +9,10 @@ import (
 )
 
 type Database struct {
-	DSN        string `yaml:"dsn"`
-	UseSqlite  bool   `yaml:"useSqlite"`
-	SqlitePath string `yaml:"sqlitePath"`
+	DSN             string `yaml:"dsn"`
+	UseSqlite       bool   `yaml:"useSqlite"`
+	SqlitePath      string `yaml:"sqlitePath"`
+	MigrateToSqlite bool   `yaml:"migrateToSqlite"`
 }
 
 type Server struct {
