@@ -58,6 +58,20 @@ func loadConfig(path string) (*Config, error) {
 	return config, nil
 }
 
+func saveConfig(path string, config *Config) error {
+	var data, err = yaml.Marshal(config)
+	if err != nil {
+		return err
+	}
+
+	err = os.WriteFile(path, data, 0644)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func init() {
 	config, err := loadConfig("config.yaml")
 	if err != nil {

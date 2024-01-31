@@ -75,8 +75,8 @@ func init() {
 	if loadedConfig.Database.UseSqlite {
 		if loadedConfig.Database.MigrateToSqlite {
 			mysqlDialector := mysql.Open(loadedConfig.Database.DSN)
-			mysqlDatabase, err := gorm.Open(mysqlDialector, config)
 
+			mysqlDatabase, err := gorm.Open(mysqlDialector, config)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -86,6 +86,12 @@ func init() {
 				log.Fatal(err)
 			}
 
+			loadedConfig.Database.MigrateToSqlite = false
+
+			err = saveConfig("config.yaml", loadedConfig)
+			if err != nil {
+				log.Fatal(err)
+			}
 		}
 	}
 
