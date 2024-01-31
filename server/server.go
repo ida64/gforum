@@ -32,10 +32,12 @@ func generateRandomString(length int) string {
  */
 func getParamterInt(c *gin.Context, name string) int {
 	var param = c.Param(name)
+
 	var paramInt, err = strconv.Atoi(param)
 	if err != nil {
 		return 0
 	}
+
 	return paramInt
 }
 
