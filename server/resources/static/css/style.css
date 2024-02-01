@@ -6,7 +6,6 @@ body {
     color: #fff;
 }
 
-/* Add dark mode styles */
 .dark-mode {
     background-color: #333;
     color: #fff;
@@ -35,7 +34,7 @@ label {
     text-align: left;
     display: block;
     color: #fff;
-    margin-bottom: 5px; /* Added margin-bottom */
+    margin-bottom: 5px;
 }
 
 table {
@@ -139,7 +138,7 @@ button.small {
 
 .badge {
     display: inline-block;
-    padding: 3px 3px; /* Add horizontal padding */
+    padding: 3px 3px;
     text-align: center;
     border-radius: 2px;
     font-size: 12px;
@@ -186,11 +185,11 @@ button.small {
 
 .card {
     background-color: #333;
-    padding: 10px; /* Decreased padding */
+    padding: 10px;
     border-radius: 5px;
     color: #fff;
-    margin-bottom: 20px; /* Added margin-bottom */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Added box shadow */
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .post-feed {
@@ -201,20 +200,20 @@ button.small {
 
 .post-box {
     background-color: #333;
-    padding: 10px; /* Decreased padding */
+    padding: 10px;
     border-radius: 5px;
     color: #fff;
-    margin-bottom: 20px; /* Added margin-bottom */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Added box shadow */
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .post-box .content {
-    padding: 10px; /* Added padding for content */
+    padding: 10px;
 }
 
 .post-box .profile-picture {
-    width: 40px; /* Decreased width */
-    height: 40px; /* Decreased height */
+    width: 40px;
+    height: 40px;
     border-radius: 5%;
     background-color: #fff;
     display: block;
@@ -240,15 +239,15 @@ a {
 
 .comment-box {
     background-color: #333;
-    padding: 10px; /* Decreased padding */
+    padding: 10px;
     border-radius: 5px;
     color: #fff;
-    margin-bottom: 20px; /* Added margin-bottom */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Added box shadow */
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .comment-box .content {
-    padding: 10px; /* Added padding for content */
+    padding: 10px;
 }
 
 .pagination {
@@ -317,12 +316,13 @@ input[type="submit"]:hover {
     text-align: left;
     display: block;
     color: #fff;
-    margin-bottom: 5px; /* Added margin-bottom */
+    margin-bottom: 5px;
 }
 
 .mb-3 {
-    margin-bottom: 1rem; /* Added margin-bottom */
+    margin-bottom: 1rem;
 }
+
 .hidden {
     display: none;
 }
