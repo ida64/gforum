@@ -6,18 +6,13 @@
 
 <div class="my-3 p-3 bg-body rounded shadow-sm" style="min-width: 40%;">
   <div class="post-box">
-    <div class="card">
-      <p class="title">
-        {{ .Post.Title }}
-      <div>
-        <p>
-          <span class="badge primary">Original Poster</span>
-          {{ if .Post.User.IsAdministrator }}
-          <span class="badge danger">Admin</span>
-          {{ end }}
-          {{ .Post.User.Username }}
-        </p>
-      </div>
+    <div>
+      <p>
+        <span class="badge primary">Original Poster</span>
+        {{ if .Post.User.IsAdministrator }}
+        <span class="badge danger">Admin</span>
+        {{ end }}
+        {{ .Post.User.Username }}
       </p>
     </div>
     {{ .Content }}
