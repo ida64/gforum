@@ -7,13 +7,13 @@
 <div class="my-3 p-3 bg-body rounded shadow-sm" style="min-width: 40%;">
   <div class="post-box">
     <div>
-      <p>
+      <label>
         <span class="badge primary">Original Poster</span>
         {{ if .Post.User.IsAdministrator }}
         <span class="badge danger">Admin</span>
         {{ end }}
         {{ .Post.User.Username }}
-      </p>
+      </label>
     </div>
     {{ .Content }}
   </div>
