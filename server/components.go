@@ -90,7 +90,7 @@ func renderUserRegisterComponent(c *gin.Context) {
 func renderUserLoginComponent(c *gin.Context) {
 	var content = parseHTMLTemplatesFromResources("components/user/login.html")
 
-	err := content.ExecuteTemplate(c.Writer, "componentBody", nil)
+	err := content.ExecuteTemplate(c.Writer, "componentBody", NewGenericView(c))
 	if err != nil {
 		c.AbortWithError(500, err)
 	}
@@ -165,8 +165,9 @@ func renderUserPostComposeReplyComponent(c *gin.Context) {
 }
 
 type UserPostCommentsFeedView struct {
-	GV       *GenericView
-	Comments []PostCommentModel
+	GV           *GenericView
+	Comments     []PostCommentModel
+	OriginalPost PostModel
 }
 
 func renderUserPostCommentsFeedComponent(c *gin.Context) {
@@ -178,9 +179,15 @@ func renderUserPostCommentsFeedComponent(c *gin.Context) {
 		return
 	}
 
+	post, err := getPost(id)
+	if err != nil {
+		renderError(c, ErrPostNotFound)
+		return
+	}
+
 	var content = parseHTMLTemplatesFromResources("components/user/postRepliesFeed.html")
 
-	err = content.ExecuteTemplate(c.Writer, "componentBody", UserPostCommentsFeedView{GV: NewGenericView(c), Comments: comments})
+	err = content.ExecuteTemplate(c.Writer, "componentBody", UserPostCommentsFeedView{GV: NewGenericView(c), Comments: comments, OriginalPost: post})
 	if err != nil {
 		c.AbortWithError(500, err)
 	}

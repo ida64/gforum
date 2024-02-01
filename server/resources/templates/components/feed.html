@@ -4,46 +4,29 @@
   <title>{{ .GenericView.Branding.Name }} - My Feed</title>
 </head>
 
-<div class="my-3 p-3 bg-body rounded shadow-sm">
-  <h6 class="border-bottom pb-2 mb-0">My Feed</h6>
+<div class="p-3 bg-body rounded shadow-sm">
+  <h3 class="border-bottom pb-2 mb-0 container">My Feed</h3>
   {{ range .Posts }}
-  <a href="#" hx-get="/post/{{ .ID }}" hx-swap="innerHTML" hx-trigger="click" hx-target="#mainPageContent" hx-push-url="true" hx-boost="true" class="d-flex text-body-secondary pt-2">
-    <div id="postContainer_{{ .ID }}" hx-get="/components/user/avatar/{{ .User.ID }}" hx-push-url="false" hx-target="#postContainer_{{ .ID }}" hx-swap="innerHTML" hx-trigger="load" ></div>
-    <p class="pb-3 mb-0 small lh-sm border-bottom" style="
-        width: 100%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      ">
-      <a href="#" style="text-decoration: none; color: white" hx-get="/post/{{ .ID }}" hx-swap="innerHTML" hx-trigger="click" hx-target="#mainPageContent" hx-push-url="true" class="d-block text-gray-dark">{{ .Title }}</a>
-      <label class="text-gray-dark">
-        Category:
-        <a href="#" style="text-decoration: none; color: white" hx-get="/feed/{{ .CategoryID }}" hx-swap="innerHTML" hx-trigger="click" hx-target="#mainPageContent">{{ .GetCategoryName }}</a>
-        by <b>@{{ .User.Username }}</b>
-      </label>
-    </p>
-  </a>
+  <div class="post-box">
+    <div id="postContainer_{{ .ID }}" hx-get="/components/user/avatar/{{ .User.ID }}" hx-push-url="false" hx-target="#postContainer_{{ .ID }}" hx-swap="innerHTML" hx-trigger="load"></div>
+
+    <h2 class="title">
+      <a href="/post/{{ .ID }}" hx-get="/post/{{.ID}}" hx-swap="innerHTML" hx-trigger="click" hx-target="#mainPageContent" hx-push-url="true" hx-boost="true">{{ .Title }}</a>
+    </h2>
+    <p class="last-active">{{ .GetCreatedAt }}</p>
+  </div>
   {{ end }}
-  <div class="btn-group d-flex text-body-secondary pt-2">
+  <div class="pagination">
     {{ if .LastPageExists }}
-    <a href="#" hx-get="/components/feed/{{ .LastPageOffset }}" hx-swap="innerHTML" hx-trigger="click" hx-target="#mainPageContent" hx-push-url="false" class="btn btn-primary btn-sm" style="text-decoration: none; color: white">
-      Last page
-    </a>
+    <a class="page-link active" href="#" hx-get="/feed/{{ .LastPageOffset }}" hx-swap="innerHTML" hx-trigger="click" hx-target="#mainPageContent" hx-push-url="false">Previous</a>
     {{ else }}
-    <a href="#" class="btn btn-primary disabled btn-sm" style="text-decoration: none; color: white">
-      Last page
-    </a>
-    {{ end }} {{ if .NextPageExists }}
-    <a href="#" hx-get="/components/feed/{{ .NextPageOffset }}" hx-swap="innerHTML" hx-trigger="click" hx-target="#mainPageContent" hx-push-url="false" class="btn btn-primary btn-sm" style="text-decoration: none; color: white">
-      Next page
-    </a>
+    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+    {{ end }}
+    {{ if .NextPageExists }}
+    <a class="page-link active" href="#" hx-get="/feed/{{ .NextPageOffset }}" hx-swap="innerHTML" hx-trigger="click" hx-target="#mainPageContent" hx-push-url="false">Next</a>
     {{ else }}
-    <a href="#" class="btn btn-primary disabled btn-sm" style="text-decoration: none; color: white">
-      Next page
-    </a>
+    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
     {{ end }}
   </div>
 </div>
-<!-- Reset the sidebar to its default state. -->
-<span hx-get="/components/sidebar" hx-swap="innerHTML" hx-trigger="load" hx-target="#sidebar" remove-me="2s">
 {{ end }}

@@ -1,23 +1,28 @@
 {{ define "componentBody" }}
-<div class="my-3 p-3 bg-body rounded shadow-sm">
-    <h6 class="border-bottom pb-2 mb-0 container">Replies</h6>
-    {{ if . }}
-    {{ $view := .GV }}
-    {{ range .Comments }}
-    <div class="d-flex text-muted pt-3">
-        <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-            <div class="d-flex justify-content-space-between">
-                <strong class="text-gray-dark">@{{ .GetCreator.Username }}
-                    {{ if .GetCreator.IsAdministrator }}<span class="badge text-bg-danger">Admin</span>{{ end }}
-                    - {{ .GetCreatedAt }}
-                </strong>
-            </div>
-            <div class="container bg-light p-2 mt-2 rounded">
-                <pre class="mb-0 text-dark">{{ .Content }}</pre>
-            </div>
-        </div>
-    </div>
-    {{ end }}
-    {{ end }}
+
+{{ if . }}
+{{ $originalPost := .OriginalPost }}
+{{ range .Comments }}
+<div class="comment-box">
+    <label>
+        {{ if eq $originalPost.User.ID .GetCreator.ID }}
+        <span class="badge primary">
+            Original Poster
+        </span>
+        {{ end }}
+        {{ if .GetCreator.IsAdministrator }}
+        <span class="badge danger">
+            Admin
+        </span>
+        {{ end }}
+        {{ .GetCreator.Username }}
+        ({{ .GetCreatedAt }})
+    </label>
+    <p>
+        {{ .Content }}
+    </p>
 </div>
+{{ end }}
+{{ end }}
+
 {{ end }}

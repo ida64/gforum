@@ -34,6 +34,10 @@ func renderFeedComponent(c *gin.Context) {
 		view.LastPageOffset = offset - 1
 	}
 
+	if offset == 0 {
+		view.LastPageExists = false
+	}
+
 	content := parseHTMLTemplatesFromResources("components/feed.html")
 
 	if err := content.ExecuteTemplate(c.Writer, "componentBody", view); err != nil {
@@ -47,7 +51,7 @@ func renderFeedComponent(c *gin.Context) {
 func renderFeedComponentCategorized(c *gin.Context) {
 	var categoryID = getParamterInt(c, "categoryId")
 
-	posts, err := getRecentPostsByCategory(categoryID, 10)
+	posts, err := getRecentPostsByCategory(categoryID, 5)
 	if err != nil {
 		renderErrorAlert(c, "error fetching posts")
 		return

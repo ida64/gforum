@@ -4,27 +4,54 @@
   <title>{{ .GenericView.Branding.Name }} - {{ .Post.Title }}</title>
 </head>
 
-<div class="my-3 p-3 bg-body rounded shadow-sm">
-  <h6 class="border-bottom pb-2 mb-0 container">
-    "{{ .Post.Title }}" by <b>{{ .Post.User.Username }}</b>
-  </h6>
-  <div class="d-flex text-body-secondary pt-3">
-    <div class="container">
-      <div style="
-            max-width: 100%;
-            max-height: 100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-          ">
-        {{ .Content }}
+<div class="my-3 p-3 bg-body rounded shadow-sm" style="min-width: 40%;">
+  <div class="post-box">
+    <div class="card">
+      <p class="title">
+        {{ .Post.Title }}
+      <div>
+        <p>
+          <span class="badge primary">Original Poster</span>
+          {{ if .Post.User.IsAdministrator }}
+          <span class="badge danger">Admin</span>
+          {{ end }}
+          {{ .Post.User.Username }}
+        </p>
       </div>
+      </p>
     </div>
+    {{ .Content }}
   </div>
+  {{ if .GenericView.CurrentUser }}
+  <div class="comment-box">
+    <label>
+      {{ if eq .GenericView.CurrentUser.ID .Post.User.ID }}
+      <span class="badge primary">
+        Original Poster
+      </span>
+      {{ end }}
+      {{ if .GenericView.CurrentUser.IsAdministrator }}
+      <span class="badge danger">
+        Admin
+      </span>
+      {{ end }}
+      {{ .GenericView.CurrentUser.Username }}
+      (now)
+    </label>
+    <p>
+    <form hx-post="/actions/user/composeComment/{{ .Post.ID }}" hx-swap="innerHTML" hx-trigger="submit" hx-target="#mainPageContent">
+      <div class="mb-3">
+        <label for="inputContent" class="form-label">Comment</label>
+        <textarea class="form-control dark-mode" id="inputContent" name="inputContent" autocomplete="off" required style="resize: none;" cols="60" rows="4"></textarea>
+      </div>
+      <div class="mb-3">
+        <button type="submit">Post</button>
+      </div>
+    </form>
+    <div id="postCommentActionResponse" class="mt-3"></div>
+    </p>
+  </div>
+  {{ end }}
+  <div hx-get="/components/user/postCommentFeed/{{ .Post.ID }}" hx-swap="innerHTML" hx-trigger="load"></div>
 </div>
-{{ if .GenericView.CurrentUser}}
-<!-- Update the sidebar with the compose reply form. -->
-<span hx-get="/components/user/composeReply/{{ .Post.ID }}" hx-swap="innerHTML" hx-trigger="load" hx-target="#sidebar"></span>
-{{ end }}
-<div hx-get="/components/user/postCommentFeed/{{ .Post.ID }}" hx-swap="innerHTML" hx-trigger="load"></div>
 {{ end }}

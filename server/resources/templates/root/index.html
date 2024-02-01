@@ -1,7 +1,4 @@
 {{ define "content" }}
-<div class="d-flex p-3 my-3 text-white shadow-sm" style="background-color: #ed9b40">
-  <h1>{{ .View.GenericView.Branding.Name }}</h1>
-</div>
 
 <div id="mainPageContent">
   {{if .View.IsRestore }}
@@ -10,5 +7,4 @@
   <div hx-get="/components/feed/0" hx-swap="outerHTML" hx-trigger="load" id="feedContent"></div>
   {{ end }}
 </div>
-
 {{ end }}

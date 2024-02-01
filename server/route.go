@@ -92,7 +92,7 @@ var Components = []Route{
 	{
 		Method:   "GET",
 		Path:     "/user/postCommentFeed/:id",
-		Handlers: []gin.HandlerFunc{sessionToUserMiddleware, userRequiredMiddleware, renderUserPostCommentsFeedComponent},
+		Handlers: []gin.HandlerFunc{sessionToUserMiddleware, renderUserPostCommentsFeedComponent},
 	},
 	{
 		Method:   "GET",

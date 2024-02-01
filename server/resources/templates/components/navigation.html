@@ -1,62 +1,46 @@
 {{ define "componentBody" }}
-<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/">{{ .GenericView.Branding.Name }}</a>
-    <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="navbar-collapse offcanvas-collapse">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" href="/">Home</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
-          <ul class="dropdown-menu">
-            {{ range .GenericView.Categories }}
-            <li>
-              <a class="dropdown-item" href="#" hx-get="/feed/{{.ID}}" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-target="#mainPageContent">{{.Name}}</a>
-            </li>
-            {{ end }}
-          </ul>
-        </li>
-      </ul>
-    </div>
-    <div class="navbar-nav ms-auto">
-      {{ if .GenericView.CurrentUser }}
-      <a class="nav-link" href="#" hx-get="/user/profile" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-target="#mainPageContent">
-        <span class="bi bi-person-circle">
-          {{ .GenericView.CurrentUser.Username }} {{ if
-          .GenericView.CurrentUser.IsAdministrator }}
-          <span class="badge text-bg-danger">Admin</span>
-          {{ end }}
-        </span>
-      </a>
-      {{ else }}
-      <a class="nav-link" href="#" hx-get="/user/login" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-target="#mainPageContent">
-        Login
-      </a>
-      <a class="nav-link" href="#" hx-get="/user/register" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-target="#mainPageContent">
-        Register
-      </a>
-      {{ end }}
-    </div>
-    {{ if .GenericView.CurrentUser }} {{ if
-    .GenericView.CurrentUser.IsAdministrator }}
-    <div class="navbar-nav mx-auto">
-      <li class="nav-item" style="margin-right: 1rem">
-        <a class="nav-link" style="color: red; font-weight: bold" href="#" hx-get="/siteAdministration" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-target="#mainPageContent">Site Administration</a>
+<nav>
+  <div class=left-content>
+    <ul>
+      <li>
+        <a href="/">Home</a>
       </li>
-    </div>
-    {{ end }}
-    <div class="navbar-nav mx-auto">
-      <button class="btn btn-primary" type="button" hx-get="/user/compose" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-target="#mainPageContent">
-        <span class="bi bi-sticky-fill">Compose</span>
-      </button>
-    </div>
-    {{ end }}
+      <li>[</li>
+      {{ range .GenericView.Categories }}
+      <li>
+        <a href="/feed/{{ .ID }}">
+          {{ .Name }}
+        </a>
+      </li>
+      {{ end }}
+      <li>]</li>
+    </ul>
+  </div>
+  <div class=right-content>
+    <ul>
+      {{ if .GenericView.CurrentUser }}
+      <li>
+        <a href="#" style="color:#6a60ff;" hx-get="/user/profile" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-target="#mainPageContent">
+          @{{ .GenericView.CurrentUser.Username }}
+        </a>
+      </li>
+      {{ if .GenericView.CurrentUser.IsAdministrator }}
+      <li>
+        <a href="#" style="color:red;" hx-get="/siteAdministration" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-target="#mainPageContent">Site Administration</a>
+      </li>
+      {{ end }}
+      <li>
+        <button class="small" hx-get="/user/compose" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-target="#mainPageContent">Compose</button>
+      </li>
+      {{ else }}
+      <li>
+        <a href="#" hx-get="/user/login" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-target="#mainPageContent">Login</a>
+      </li>
+      <li>
+        <a href="#" hx-get="/user/register" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-target="#mainPageContent">Register</a>
+      </li>
+      {{ end }}
+    </ul>
   </div>
 </nav>
-
 {{ end }}

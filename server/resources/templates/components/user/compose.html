@@ -4,48 +4,56 @@
   <title>{{ .GenericView.Branding.Name }} - Compose</title>
 </head>
 
-<div class="my-3 p-3 bg-body rounded shadow-sm dark-mode">
-  <h6 class="border-bottom pb-2 mb-0 container">Compose a post</h6>
-  <div class="d-flex text-body-secondary pt-3">
-    <div class="container">
-      <form hx-post="/actions/user/compose" hx-swap="innerHTML" hx-trigger="submit" hx-target="#composeActionResponse">
-        <div class="mb-3">
-          <label for="inputUsername" class="form-label">Title</label>
-          <input type="text" class="form-control" id="inputTitle" name="inputTitle" autocomplete="off" required />
+<div class="my-3 p-3 bg-body rounded shadow-sm" style="min-width: 40%;">
+  <div class="post-box">
+    <form hx-post="/actions/user/compose" hx-swap="innerHTML" hx-trigger="submit" hx-target="#composeActionResponse">
+      <div class="mb-3">
+        <label for="inputTitle" class="form-label">Title</label>
+        <input type="text" class="form-control dark-mode" id="inputTitle" name="inputTitle" autocomplete="off" required />
+      </div>
+
+      <div class="mb-3">
+        <label for="inputCategory" class="form-label">Category</label>
+        <select class="form-select dark-mode" id="inputCategory" name="inputCategory" required>
+          {{ range .GenericView.Categories }}
+          <option value={{ .Name }}>{{ .Name }}</option>
+          {{ end }}
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <p>
+          <span class="badge primary">Original Poster</span>
+          {{ if .GenericView.CurrentUser.IsAdministrator }}
+          <span class="badge danger">Admin</span>
+          {{ end }}
+          {{ .GenericView.CurrentUser.Username }} (now)
+        </p>
+      </div>
+
+      <div class="mb-3">
+        <label for="markdownEditorContainer" class="form-label">Content</label>
+        <div id="markdownEditorContainer" style="border-radius: 10px">
+          <textarea id="markdownEditor"></textarea>
         </div>
-        <div class="mb-3">
-          <label for="inputCategory" class="form-label">Category</label>
-          <select class="form-select" id="inputCategory" name="inputCategory" required>
-            {{ range .CategoryModels }}
-            <option value="{{.Name}}">{{.Name}}</option>
-            {{ end }}
-          </select>
+      </div>
+
+      <div class="mb-3">
+        <div class="alert warning">
+          <img src="/captcha/{{ .CaptchaID }}.png" alt="Captcha" id="captchaImage" width="50%" />
+          <input type="text" class="form-control dark-mode" id="inputCaptchaSolution" name="inputCaptchaSolution" autocomplete="off" placeholder="123456" required />
         </div>
-        <div class="mb-3">
-          <label for="markdownEditorContainer" class="form-label">Content</label>
-          <div id="markdownEditorContainer" style="border-radius: 10px">
-            <textarea id="markdownEditor"></textarea>
-          </div>
-        </div>
-        <div class="mb-3">
-          <div class="alert alert-warning" role="alert">
-            <label for="captchaImage" class="form-label">Please solve the captcha to complete the post:</label>
-            <br />
-            <img src="/captcha/{{ .CaptchaID }}.png" alt="Captcha" id="captchaImage" />
-            <input type="text" class="form-control" id="inputCaptchaSolution" name="inputCaptchaSolution" autocomplete="off" placeholder="123456" required />
-          </div>
-        </div>
-        <div class="mb-3">
-          <button type="submit" class="btn btn-primary">Create</button>
-        </div>
-        <textarea hidden type="text" id="inputMarkdown" name="inputMarkdown"></textarea>
-        <input type="hidden" name="inputCaptchaID" value="{{ .CaptchaID }}" />
-      </form>
-      <div id="composeActionResponse" class="mt-3"></div>
-      <script>initializeMarkdownEditor();</script>
-    </div>
+      </div>
+
+      <div class="mb-3">
+        <button type="submit">Post</button>
+      </div>
+
+      <textarea type="text" class="hidden" id="inputMarkdown" name="inputMarkdown"></textarea>
+      <input type="hidden" name="inputCaptchaID" value={{ .CaptchaID }} />
+    </form>
+    <div id="composeActionResponse" class="mt-3"></div>
+    <script>initializeMarkdownEditor();</script>
   </div>
 </div>
-<!-- Reset the sidebar to its default state. -->
-<span hx-get="/components/sidebar" hx-swap="innerHTML" hx-trigger="load" hx-target="#sidebar">
 {{ end }}

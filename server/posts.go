@@ -1,11 +1,15 @@
 package main
 
 import (
+	"fmt"
+	"time"
+
 	"github.com/gomarkdown/markdown"
 	"github.com/gomarkdown/markdown/html"
 	"github.com/gomarkdown/markdown/parser"
 	"github.com/microcosm-cc/bluemonday"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type PostCommentModel struct {
@@ -14,6 +18,10 @@ type PostCommentModel struct {
 	ParentID  uint   `gorm:"not null"`
 	CreatorID uint   `gorm:"not null"`
 	Content   string `gorm:"not null"`
+}
+
+func (comment *PostCommentModel) GetParent() (PostModel, error) {
+	return getPost(int(comment.ParentID))
 }
 
 type CategoryModel struct {
@@ -47,6 +55,20 @@ type PostModel struct {
 	CategoryID uint `gorm:"not null"`
 }
 
+// Get last active (last comment or post) (i.e 1 hour ago)
+func (post *PostModel) GetCreatedAt() string {
+	duration := time.Since(post.CreatedAt)
+	if duration.Minutes() < 1 {
+		return fmt.Sprintf("%.0f seconds ago", duration.Seconds())
+	} else if duration.Hours() < 1 {
+		return fmt.Sprintf("%.0f minutes ago", duration.Minutes())
+	} else if duration.Hours() < 24 {
+		return fmt.Sprintf("%.0f hours ago", duration.Hours())
+	} else {
+		return post.CreatedAt.Format("January 2, 2006")
+	}
+}
+
 func (comment *PostCommentModel) GetCreator() UserModel {
 	var user UserModel
 	database.First(&user, comment.CreatorID)
@@ -55,7 +77,16 @@ func (comment *PostCommentModel) GetCreator() UserModel {
 }
 
 func (comment *PostCommentModel) GetCreatedAt() string {
-	return comment.CreatedAt.Format("January 2, 2006 15:04:05")
+	duration := time.Since(comment.CreatedAt)
+	if duration.Minutes() < 1 {
+		return fmt.Sprintf("%.0f seconds ago", duration.Seconds())
+	} else if duration.Hours() < 1 {
+		return fmt.Sprintf("%.0f minutes ago", duration.Minutes())
+	} else if duration.Hours() < 24 {
+		return fmt.Sprintf("%.0f hours ago", duration.Hours())
+	} else {
+		return comment.CreatedAt.Format("January 2, 2006")
+	}
 }
 
 func (post *PostModel) GetCategoryName() string {
@@ -89,7 +120,7 @@ func getPost(id int) (PostModel, error) {
 	}
 
 	var postModel PostModel
-	err := database.Preload("User").First(&postModel, id).Error
+	err := database.Preload(clause.Associations).First(&postModel, id).Error
 	if err != nil {
 		return PostModel{}, err
 	}
