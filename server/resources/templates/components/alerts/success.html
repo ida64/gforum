@@ -2,8 +2,8 @@
 {{ if .AutoDelete }}
 <div hx-ext="remove-me">
     {{ end }}
-    <div class="alert alert-success" role="alert" {{ if .AutoDelete }} remove-me="2s" {{ end }}>
-        {{ .Message }}
+    <div class="alert success" {{ if .AutoDelete }} remove-me="2s" {{ end }}>
+        <b>Success:</b> {{ .Message }}
     </div>
     {{ if .AutoDelete }}
 </div>

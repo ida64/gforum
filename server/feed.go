@@ -1,6 +1,10 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"log"
+
+	"github.com/gin-gonic/gin"
+)
 
 type FeedView struct {
 	GenericView    *GenericView
@@ -13,6 +17,7 @@ type FeedView struct {
 }
 
 func renderFeedComponent(c *gin.Context) {
+	log.Println("renderFeedComponent")
 	offset := getParamterInt(c, "offset")
 
 	posts, err := getRecentPosts(5, offset)
