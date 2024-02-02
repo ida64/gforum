@@ -1,14 +1,14 @@
 {{ define "componentBody" }}
 
 <head>
-  <title>{{ .GenericView.Branding.Name }} - My Feed</title>
+  <title>{{ .GlobalView.Branding.Name }} - My Feed</title>
 </head>
 
 <div class="p-3 bg-body rounded shadow-sm">
   <h3 class="border-bottom pb-2 mb-0 container">My Feed</h3>
   {{ range .Posts }}
   <div class="post-box">
-    <div id="postContainer_{{ .ID }}" hx-get="/components/user/avatar/{{ .User.ID }}" hx-push-url="false" hx-target="#postContainer_{{ .ID }}" hx-swap="innerHTML" hx-trigger="load"></div>
+    <div id="postContainer_{{ .ID }}" hx-get="/components/user/{{ .User.ID }}/avatar" hx-push-url="false" hx-target="#postContainer_{{ .ID }}" hx-swap="innerHTML" hx-trigger="load"></div>
     <h2 class="title">
       <a href="/post/{{ .ID }}" hx-get="/post/{{.ID}}" hx-swap="innerHTML" hx-trigger="click" hx-target="#mainPageContent" hx-push-url="true" hx-boost="true">{{ .Title }}</a>
     </h2>

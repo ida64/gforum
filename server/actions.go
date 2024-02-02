@@ -17,7 +17,7 @@ type HXLocation struct {
 }
 
 func handleUserLogoutAction(c *gin.Context) {
-	user, ok := getUserFromContext(c)
+	user, ok := getUserByValue(c)
 	if !ok {
 		renderErrorAlert(c, "You are not logged in.")
 		return
@@ -151,7 +151,7 @@ type UserCreatePostActionForm struct {
 }
 
 func handleUserComposeAction(c *gin.Context) {
-	user, ok := getUserFromContext(c)
+	user, ok := getUserByValue(c)
 	if !ok {
 		renderErrorAlert(c, "you are not logged in.")
 		return
@@ -204,7 +204,7 @@ type UserPostCommentActionForm struct {
 }
 
 func handleUserPostCommentAction(c *gin.Context) {
-	user, ok := getUserFromContext(c)
+	user, ok := getUserByValue(c)
 	if !ok {
 		renderError(c, ErrUserNotLoggedIn)
 		return
@@ -252,7 +252,7 @@ const (
 )
 
 func handleUserUploadAvatarAction(c *gin.Context) {
-	user, ok := getUserFromContext(c)
+	user, ok := getUserByValue(c)
 	if !ok {
 		renderErrorAlert(c, "you are not logged in.")
 		return
@@ -295,7 +295,7 @@ type UserUpdateProfileActionForm struct {
 }
 
 func handleUserUpdateProfileAction(c *gin.Context) {
-	user, ok := getUserFromContext(c)
+	user, ok := getUserByValue(c)
 	if !ok {
 		renderErrorAlert(c, "you are not logged in.")
 		return
@@ -352,7 +352,7 @@ func logActionMiddleware(c *gin.Context) {
 		IP:     c.ClientIP(),
 	}
 
-	user, ok := getUserFromContext(c)
+	user, ok := getUserByValue(c)
 	if ok {
 		action.UserID = user.ID
 	}

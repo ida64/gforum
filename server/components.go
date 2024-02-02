@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type GenericView struct {
+type GlobalView struct {
 	CurrentUser *UserModel
 	Branding    Branding
 	NumUsers    int64
@@ -15,8 +15,8 @@ type GenericView struct {
 	Categories  []CategoryModel
 }
 
-func NewGenericView(c *gin.Context) *GenericView {
-	var view = GenericView{}
+func NewGlobalView(c *gin.Context) *GlobalView {
+	var view = GlobalView{}
 
 	user, ok := c.Get("user")
 	if ok {
@@ -40,31 +40,34 @@ func NewGenericView(c *gin.Context) *GenericView {
 }
 
 type PostView struct {
-	GenericView *GenericView
-	Post        PostModel
-	Content     template.HTML
+	GlobalView *GlobalView
+	Post       PostModel
+	Content    template.HTML
 
 	IsRestore   bool
 	RestorePath string
 }
 
-func renderPostComponent(c *gin.Context) {
+func NewPostView(c *gin.Context) *PostView {
 	var id int = getParamterInt(c, "id")
 
 	post, err := getPost(id)
 	if err != nil {
-		renderErrorAlert(c, "invalid post")
-		return
+		renderError(c, ErrPostNotFound)
+		return nil
 	}
 
+	return &PostView{
+		GlobalView: NewGlobalView(c),
+		Post:       post,
+		Content:    template.HTML(post.ToHTML()),
+	}
+}
+
+func renderPostComponent(c *gin.Context) {
 	var content = parseHTMLTemplatesFromResources("components/post.html")
 
-	err = content.ExecuteTemplate(c.Writer, "componentBody", PostView{
-		Content:     template.HTML(post.ToHTML()),
-		GenericView: NewGenericView(c),
-		Post:        post,
-	})
-
+	err := content.ExecuteTemplate(c.Writer, "componentBody", NewPostView(c))
 	if err != nil {
 		c.AbortWithError(500, err)
 	}
@@ -76,10 +79,14 @@ type UserRegisterView struct {
 	CaptchaID string
 }
 
+func NewUserRegisterView() *UserRegisterView {
+	return &UserRegisterView{CaptchaID: captcha.New()}
+}
+
 func renderUserRegisterComponent(c *gin.Context) {
 	var content = parseHTMLTemplatesFromResources("components/user/register.html")
 
-	err := content.ExecuteTemplate(c.Writer, "componentBody", UserRegisterView{CaptchaID: captcha.New()})
+	err := content.ExecuteTemplate(c.Writer, "componentBody", NewUserRegisterView())
 	if err != nil {
 		c.AbortWithError(500, err)
 	}
@@ -90,7 +97,7 @@ func renderUserRegisterComponent(c *gin.Context) {
 func renderUserLoginComponent(c *gin.Context) {
 	var content = parseHTMLTemplatesFromResources("components/user/login.html")
 
-	err := content.ExecuteTemplate(c.Writer, "componentBody", NewGenericView(c))
+	err := content.ExecuteTemplate(c.Writer, "componentBody", NewGlobalView(c))
 	if err != nil {
 		c.AbortWithError(500, err)
 	}
@@ -101,7 +108,7 @@ func renderUserLoginComponent(c *gin.Context) {
 func renderUserProfileComponent(c *gin.Context) {
 	var content = parseTextTemplatesFromResources("components/user/profile.html")
 
-	err := content.ExecuteTemplate(c.Writer, "componentBody", NewGenericView(c))
+	err := content.ExecuteTemplate(c.Writer, "componentBody", NewGlobalView(c))
 	if err != nil {
 		c.AbortWithError(500, err)
 	}
@@ -123,21 +130,29 @@ func renderUserAvatarImageComponent(c *gin.Context) {
 }
 
 type ComposeView struct {
-	GenericView    *GenericView
+	GlobalView     *GlobalView
 	CategoryModels []CategoryModel
 	CaptchaID      string
 }
 
-func renderUserComposeComponent(c *gin.Context) {
+func NewComposeView(c *gin.Context) *ComposeView {
 	categories, err := getCategories()
 	if err != nil {
 		renderError(c, ErrCategoryNotFound)
-		return
+		return nil
 	}
 
+	return &ComposeView{
+		GlobalView:     NewGlobalView(c),
+		CategoryModels: categories,
+		CaptchaID:      captcha.New(),
+	}
+}
+
+func renderUserComposeComponent(c *gin.Context) {
 	var content = parseHTMLTemplatesFromResources("components/user/compose.html")
 
-	err = content.ExecuteTemplate(c.Writer, "componentBody", ComposeView{GenericView: NewGenericView(c), CategoryModels: categories, CaptchaID: captcha.New()})
+	err := content.ExecuteTemplate(c.Writer, "componentBody", NewComposeView(c))
 	if err != nil {
 		c.AbortWithError(500, err)
 	}
@@ -145,49 +160,33 @@ func renderUserComposeComponent(c *gin.Context) {
 	c.Status(200)
 }
 
-func renderUserPostComposeReplyComponent(c *gin.Context) {
-	var id int = getParamterInt(c, "id")
-
-	post, err := getPost(id)
-	if err != nil {
-		renderError(c, ErrPostNotFound)
-		return
-	}
-
-	var content = parseHTMLTemplatesFromResources("components/user/composeReply.html")
-
-	err = content.ExecuteTemplate(c.Writer, "componentBody", post)
-	if err != nil {
-		c.AbortWithError(500, err)
-	}
-
-	c.Status(200)
-}
-
-type UserPostCommentsFeedView struct {
-	GV           *GenericView
+type PostFeedView struct {
 	Comments     []PostCommentModel
 	OriginalPost PostModel
 }
 
-func renderUserPostCommentsFeedComponent(c *gin.Context) {
+func NewPostFeedView(c *gin.Context) *PostFeedView {
 	var id int = getParamterInt(c, "id")
 
 	comments, err := getPostComments(id)
 	if err != nil {
 		renderError(c, ErrPostNotFound)
-		return
+		return nil
 	}
 
 	post, err := getPost(id)
 	if err != nil {
 		renderError(c, ErrPostNotFound)
-		return
+		return nil
 	}
 
-	var content = parseHTMLTemplatesFromResources("components/user/postRepliesFeed.html")
+	return &PostFeedView{Comments: comments, OriginalPost: post}
+}
 
-	err = content.ExecuteTemplate(c.Writer, "componentBody", UserPostCommentsFeedView{GV: NewGenericView(c), Comments: comments, OriginalPost: post})
+func renderPostFeedComponent(c *gin.Context) {
+	var content = parseHTMLTemplatesFromResources("components/user/commentFeed.html")
+
+	err := content.ExecuteTemplate(c.Writer, "componentBody", NewPostFeedView(c))
 	if err != nil {
 		c.AbortWithError(500, err)
 	}
@@ -198,7 +197,7 @@ func renderUserPostCommentsFeedComponent(c *gin.Context) {
 func renderAdministrationMainComponent(c *gin.Context) {
 	var content = parseHTMLTemplatesFromResources("components/administration/main.html")
 
-	err := content.ExecuteTemplate(c.Writer, "componentBody", NewGenericView(c))
+	err := content.ExecuteTemplate(c.Writer, "componentBody", NewGlobalView(c))
 	if err != nil {
 		c.AbortWithError(500, err)
 	}
@@ -206,29 +205,29 @@ func renderAdministrationMainComponent(c *gin.Context) {
 	c.Status(200)
 }
 
-type AdministratorEditCategoryComponentView struct {
-	GenericView *GenericView
-	Category    CategoryModel
+type EditCategoryView struct {
+	Category CategoryModel
 }
 
-func renderAdministratorEditCategoryComponent(c *gin.Context) {
+func NewEditCategoryView(c *gin.Context) *EditCategoryView {
 	var id int = getParamterInt(c, "id")
 
 	var category CategoryModel
 	err := database.Where("id = ?", id).First(&category).Error
 	if err != nil {
 		renderError(c, ErrCategoryNotFound)
-		return
+		return nil
 	}
 
+	return &EditCategoryView{
+		Category: category,
+	}
+}
+
+func renderAdministratorEditCategoryComponent(c *gin.Context) {
 	var content = parseHTMLTemplatesFromResources("components/administration/editCategory.html")
 
-	var view = AdministratorEditCategoryComponentView{
-		GenericView: NewGenericView(c),
-		Category:    category,
-	}
-
-	err = content.ExecuteTemplate(c.Writer, "componentBody", view)
+	err := content.ExecuteTemplate(c.Writer, "componentBody", NewEditCategoryView(c))
 	if err != nil {
 		c.AbortWithError(500, err)
 	}

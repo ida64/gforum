@@ -183,7 +183,7 @@ button.small {
     display: inline-block;
 }
 
-.card {
+.card-box {
     background-color: #333;
     padding: 10px;
     border-radius: 5px;

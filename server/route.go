@@ -81,18 +81,13 @@ var Components = []Route{
 	},
 	{
 		Method:   "GET",
-		Path:     "/user/avatar/:id",
+		Path:     "/user/:id/avatar",
 		Handlers: []gin.HandlerFunc{sessionToUserMiddleware, renderUserAvatarImageComponent},
 	},
 	{
 		Method:   "GET",
-		Path:     "/user/composeReply/:id",
-		Handlers: []gin.HandlerFunc{sessionToUserMiddleware, userRequiredMiddleware, renderUserPostComposeReplyComponent},
-	},
-	{
-		Method:   "GET",
-		Path:     "/user/postCommentFeed/:id",
-		Handlers: []gin.HandlerFunc{sessionToUserMiddleware, renderUserPostCommentsFeedComponent},
+		Path:     "/post/:id/feed",
+		Handlers: []gin.HandlerFunc{sessionToUserMiddleware, renderPostFeedComponent},
 	},
 	{
 		Method:   "GET",

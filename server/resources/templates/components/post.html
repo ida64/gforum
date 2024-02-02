@@ -1,7 +1,7 @@
 {{ define "componentBody" }}
 
 <head>
-  <title>{{ .GenericView.Branding.Name }} - {{ .Post.Title }}</title>
+  <title>{{ .GlobalView.Branding.Name }} - {{ .Post.Title }}</title>
 </head>
 
 <div class="my-3 p-3 bg-body rounded shadow-sm" style="min-width: 40%;">
@@ -17,20 +17,20 @@
     </div>
     {{ .Content }}
   </div>
-  {{ if .GenericView.CurrentUser }}
+  {{ if .GlobalView.CurrentUser }}
   <div class="comment-box">
     <label>
-      {{ if eq .GenericView.CurrentUser.ID .Post.User.ID }}
+      {{ if eq .GlobalView.CurrentUser.ID .Post.User.ID }}
       <span class="badge primary">
         Original Poster
       </span>
       {{ end }}
-      {{ if .GenericView.CurrentUser.IsAdministrator }}
+      {{ if .GlobalView.CurrentUser.IsAdministrator }}
       <span class="badge danger">
         Admin
       </span>
       {{ end }}
-      {{ .GenericView.CurrentUser.Username }}
+      {{ .GlobalView.CurrentUser.Username }}
       (now)
     </label>
     <p>
@@ -47,6 +47,6 @@
     </p>
   </div>
   {{ end }}
-  <div hx-get="/components/user/postCommentFeed/{{ .Post.ID }}" hx-swap="innerHTML" hx-trigger="load"></div>
+  <div hx-get="/components/post/{{ .Post.ID }}/feed" hx-swap="innerHTML" hx-trigger="load"></div>
 </div>
 {{ end }}

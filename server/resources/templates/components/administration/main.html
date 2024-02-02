@@ -1,20 +1,26 @@
 {{ define "componentBody" }}
-<div class="my-3 p-3 bg-body rounded shadow-sm">
-    <h6 class="border-bottom pb-2 mb-0 container">Add & Edit Categories</h6>
-    <div class="d-flex text-body-secondary pt-3">
-        <div class="container">
+<div class="my-3 p-3 bg-body rounded shadow-sm" style="min-width: 40%;">
+    <div class="card-box">
+        <label class="title">
+            <p>
+                Add and Edit Categories
+            </p>
+        </label>
+        <div class="mb-3">
             <form hx-post="/actions/administration/category" hx-swap="innerHTML" hx-trigger="submit" hx-target="#addCategoryActionResponse">
                 <div class="mb-3">
                     <label for="inputName" class="form-label">Category Name</label>
-                    <input type="text" class="form-control" id="inputName" name="inputName" placeholder="Enter category name">
+                    <input type="text" class="form-control dark-mode" id="inputName" name="inputName" placeholder="Enter category name" required />
                 </div>
                 <div class="mb-3">
                     <label for="inputDescription" class="form-label">Category Description</label>
-                    <textarea class="form-control" id="inputDescription" name="inputDescription" rows="3" placeholder="Enter category description"></textarea>
+                    <textarea class="form-control dark-mode" id="inputDescription" name="inputDescription" rows="3" placeholder="Enter category description" required></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Add Category</button>
             </form>
             <div id="addCategoryActionResponse" class="mt-3"></div>
+        </div>
+        <div class="mb-3">
             <table class="table mt-4">
                 <thead>
                     <tr>
@@ -38,8 +44,8 @@
                     {{ end }}
                 </tbody>
             </table>
-            <div id="editCategoryComponent"></div>
         </div>
     </div>
+    <div id="editCategoryComponent"></div>
 </div>
 {{ end }}

@@ -6,7 +6,7 @@
         <a href="/">Home</a>
       </li>
       <li>[</li>
-      {{ range .GenericView.Categories }}
+      {{ range .GlobalView.Categories }}
       <li>
         <a href="/feed/{{ .ID }}">
           {{ .Name }}
@@ -18,13 +18,13 @@
   </div>
   <div class=right-content>
     <ul>
-      {{ if .GenericView.CurrentUser }}
+      {{ if .GlobalView.CurrentUser }}
       <li>
         <a href="#" style="color:#6a60ff;" hx-get="/user/profile" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-target="#mainPageContent">
-          @{{ .GenericView.CurrentUser.Username }}
+          @{{ .GlobalView.CurrentUser.Username }}
         </a>
       </li>
-      {{ if .GenericView.CurrentUser.IsAdministrator }}
+      {{ if .GlobalView.CurrentUser.IsAdministrator }}
       <li>
         <a href="#" style="color:red;" hx-get="/siteAdministration" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-target="#mainPageContent">Site Administration</a>
       </li>

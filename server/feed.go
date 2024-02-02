@@ -7,7 +7,7 @@ import (
 )
 
 type FeedView struct {
-	GenericView    *GenericView
+	GlobalView     *GlobalView
 	Posts          []PostModel
 	CurrentOffset  int
 	NextPageOffset int
@@ -27,7 +27,7 @@ func renderFeedComponent(c *gin.Context) {
 	}
 
 	view := FeedView{
-		GenericView:    NewGenericView(c),
+		GlobalView:     NewGlobalView(c),
 		Posts:          posts,
 		CurrentOffset:  offset,
 		NextPageOffset: offset + 1,
@@ -64,7 +64,7 @@ func renderFeedComponentCategorized(c *gin.Context) {
 
 	var content = parseHTMLTemplatesFromResources("components/feed.html")
 
-	err = content.ExecuteTemplate(c.Writer, "componentBody", FeedView{Posts: posts, GenericView: NewGenericView(c)})
+	err = content.ExecuteTemplate(c.Writer, "componentBody", FeedView{Posts: posts, GlobalView: NewGlobalView(c)})
 	if err != nil {
 		c.AbortWithError(500, err)
 	}

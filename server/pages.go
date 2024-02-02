@@ -3,7 +3,7 @@ package main
 import "github.com/gin-gonic/gin"
 
 type RootIndexView struct {
-	GenericView *GenericView
+	GlobalView *GlobalView
 
 	IsRestore   bool
 	RestorePath string
@@ -11,7 +11,7 @@ type RootIndexView struct {
 
 func NewRootIndexView(c *gin.Context) *RootIndexView {
 	var view = RootIndexView{
-		GenericView: NewGenericView(c),
+		GlobalView: NewGlobalView(c),
 	}
 
 	return &view
@@ -19,7 +19,7 @@ func NewRootIndexView(c *gin.Context) *RootIndexView {
 
 func NewRootIndexViewWithRestore(c *gin.Context, path string) *RootIndexView {
 	var view = RootIndexView{
-		GenericView: NewGenericView(c),
+		GlobalView:  NewGlobalView(c),
 		IsRestore:   true,
 		RestorePath: path,
 	}
@@ -30,7 +30,7 @@ func NewRootIndexViewWithRestore(c *gin.Context, path string) *RootIndexView {
 func renderRootIndexPage(c *gin.Context) {
 	var content = parseHTMLTemplatesFromResources("layout.html", "root/index.html")
 
-	err := renderLayoutWithContent(c, content, RootIndexView{GenericView: NewGenericView(c)})
+	err := renderLayoutWithContent(c, content, RootIndexView{GlobalView: NewGlobalView(c)})
 	if err != nil {
 		c.String(500, "error rendering layout: %s", err)
 		return

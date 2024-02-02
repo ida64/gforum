@@ -3,13 +3,13 @@ package main
 import "github.com/gin-gonic/gin"
 
 type NavigationView struct {
-	GenericView *GenericView
+	GlobalView *GlobalView
 }
 
 func renderNavigationComponent(c *gin.Context) {
 	var content = parseHTMLTemplatesFromResources("components/navigation.html")
 
-	err := content.ExecuteTemplate(c.Writer, "componentBody", NavigationView{GenericView: NewGenericView(c)})
+	err := content.ExecuteTemplate(c.Writer, "componentBody", NavigationView{GlobalView: NewGlobalView(c)})
 	if err != nil {
 		c.AbortWithError(500, err)
 	}
@@ -20,7 +20,7 @@ func renderNavigationComponent(c *gin.Context) {
 func renderSidebarComponent(c *gin.Context) {
 	var content = parseHTMLTemplatesFromResources("components/sidebar.html")
 
-	err := content.ExecuteTemplate(c.Writer, "componentBody", NewGenericView(c))
+	err := content.ExecuteTemplate(c.Writer, "componentBody", NewGlobalView(c))
 	if err != nil {
 		c.AbortWithError(500, err)
 	}

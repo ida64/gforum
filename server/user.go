@@ -22,6 +22,8 @@ type UserModel struct {
 }
 
 func (user *UserModel) SetPassword(password string) error {
+	// TODO: validate password
+
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		return err
@@ -53,7 +55,7 @@ func (user *UserModel) GetPosts() ([]PostModel, error) {
 	return posts, nil
 }
 
-func getUserFromContext(c *gin.Context) (*UserModel, bool) {
+func getUserByValue(c *gin.Context) (*UserModel, bool) {
 	user, ok := c.Get("user")
 	if !ok {
 		return nil, false
@@ -80,7 +82,7 @@ func sessionToUserMiddleware(c *gin.Context) {
 }
 
 func userRequiredMiddleware(c *gin.Context) {
-	user, ok := getUserFromContext(c)
+	user, ok := getUserByValue(c)
 	if !ok {
 		c.Redirect(http.StatusFound, "/user/login")
 		c.Abort()
@@ -97,7 +99,7 @@ func userRequiredMiddleware(c *gin.Context) {
 }
 
 func adminRequiredMiddleware(c *gin.Context) {
-	user, ok := getUserFromContext(c)
+	user, ok := getUserByValue(c)
 	if !ok {
 		c.Redirect(http.StatusFound, "/user/login")
 		c.Abort()
