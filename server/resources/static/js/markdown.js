@@ -18,12 +18,4 @@ function initializeMarkdownEditor() {
         markdownEditor = document.getElementById("inputMarkdown");
         markdownEditor.innerHTML = simplemde.value();
     });
-
-    simplemde.codemirror.on("focus", () => {
-        markdownEditorContainer.classList.add("focused");
-    });
-
-    simplemde.codemirror.on("blur", () => {
-        markdownEditorContainer.classList.remove("focused");
-    });
 }
