@@ -1,0 +1,28 @@
+{{ define "componentBody" }}
+
+{{ if . }}
+{{ $originalPost := .OriginalPost }}
+{{ range .Comments }}
+<div class="comment-box">
+    <label>
+        {{ if eq $originalPost.User.ID .GetCreator.ID }}
+        <span class="badge primary">
+            Original Poster
+        </span>
+        {{ end }}
+        {{ if .GetCreator.IsAdministrator }}
+        <span class="badge danger">
+            Admin
+        </span>
+        {{ end }}
+        {{ .GetCreator.Username }}
+        ({{ .GetTimeAgo }})
+    </label>
+    <p>
+        {{ .Content }}
+    </p>
+</div>
+{{ end }}
+{{ end }}
+
+{{ end }}

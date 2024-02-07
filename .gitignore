@@ -1,10 +1,10 @@
 # Ignore .yaml/.yml files
-server/*.yaml
-server/*.yml
+config.yaml
+*.yml
 
 # Ignore .db files
 *.db
 *.sqlite
 
 # Ignore resources/avatars folder
-server/resources/avatars
+resources/avatars

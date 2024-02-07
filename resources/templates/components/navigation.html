@@ -1,0 +1,46 @@
+{{ define "componentBody" }}
+<nav>
+  <div class="left-content">
+    <ul>
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>[</li>
+      {{ range .GlobalView.Categories }}
+      <li>
+        <a href="/feed/{{ .ID }}">
+          {{ .Name }}
+        </a>
+      </li>
+      {{ end }}
+      <li>]</li>
+    </ul>
+  </div>
+  <div class="right-content">
+    <ul>
+      {{ if .GlobalView.CurrentUser }}
+      <li>
+        <a href="#" style="color:#6a60ff;" hx-get="/user/profile" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-target="#mainPageContent">
+          @{{ .GlobalView.CurrentUser.Username }}
+        </a>
+      </li>
+      {{ if .GlobalView.CurrentUser.IsAdministrator }}
+      <li>
+        <a href="#" style="color:red;" hx-get="/management" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-target="#mainPageContent">Site Administration</a>
+      </li>
+      {{ end }}
+      <li>
+        <button class="small" hx-get="/user/compose" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-target="#mainPageContent">Compose</button>
+      </li>
+      {{ else }}
+      <li>
+        <a href="#" hx-get="/user/login" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-target="#mainPageContent">Login</a>
+      </li>
+      <li>
+        <a href="#" hx-get="/user/register" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-target="#mainPageContent">Register</a>
+      </li>
+      {{ end }}
+    </ul>
+  </div>
+</nav>
+{{ end }}

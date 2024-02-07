@@ -1,0 +1,32 @@
+{{ define "componentBody" }}
+
+<head>
+  <title>{{ .GlobalView.Branding.Name }} - Login</title>
+</head>
+
+<div class="p-3 bg-body rounded shadow-sm" style="min-width: 30%;">
+  <div class="card-box">
+    <h2 class="title">
+      <p>
+        Login
+      </p>
+    </h2>
+    <form hx-post="/action/user/login" hx-swap="innerHTML" hx-trigger="submit" hx-target="#loginActionResponse">
+      <div class="mb-3">
+        <label for="inputUsername" class="form-label">Username</label>
+        <input type="text" class="form-control dark-mode" id="inputUsername" name="inputUsername" autocomplete="off" required />
+      </div>
+      <div class="mb-3">
+        <label for="inputPassword" class="form-label">Password</label>
+        <input type="password" class="form-control dark-mode" id="inputPassword" name="inputPassword" autocomplete="off" required />
+      </div>
+      <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Login</button>
+      </div>
+      <div class="mb-3">
+        <div id="loginActionResponse"></div>
+      </div>
+    </form>
+  </div>
+</div>
+{{ end }}

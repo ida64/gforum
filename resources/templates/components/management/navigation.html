@@ -1,0 +1,19 @@
+{{ define "componentBody" }}
+<nav>
+    <div class="left-content">
+        <ul>
+            <li>
+                <a href="/management">Home</a>
+            </li>
+        </ul>
+    </div>
+    <div class="right-content">
+        <ul>
+            <li>
+                <a href="#" hx-get="/management/categories" hx-trigger="click" hx-swap="innerHTML" hx-target="#managementContent">Categories</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+{{ end }}

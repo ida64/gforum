@@ -1,0 +1,30 @@
+{{ define "layout" }}
+<!DOCTYPE html>
+<html>
+    <head hx-ext="head-support">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="/static/css/style.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.rawgit.com/xcatliu/simplemde-theme-dark/master/dist/simplemde-theme-dark.min.css">
+        <!-- Primary Meta Tags -->
+        <meta name="title" content="nodiscard.net — A Place To Share" />
+        <meta name="description" content="nodiscard.net is an online forum where you can share your thoughts and ideas with the world." />
+    </head>
+    <body>
+        <!-- Render navigation component -->
+        <header id="navigationContainer" hx-get="/component/navigation" hx-swap="innerHTML" hx-trigger="load"></header>
+        <main>
+            <div class="row">
+                <!-- Beginning of the main page content. -->
+                {{ template "content" . }}
+                <!-- End of the main page content. -->
+            </div>
+        </main>
+        <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+        <script src="https://unpkg.com/htmx.org/dist/ext/remove-me.js"></script>
+        <script src="https://unpkg.com/htmx.org/dist/ext/head-support.js"></script>
+        <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+        <script src="/static/js/markdown.js"></script>
+    </body>
+</html>
+{{ end }}

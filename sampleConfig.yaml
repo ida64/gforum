@@ -1,0 +1,19 @@
+# Move this to config.yaml and edit it to your liking
+
+# The database section contains the connection string to the MySQL database, 
+# and some options for a SQLite database.
+database:
+    dsn: "http://localhost:8080" # The connection string to the MySQL database
+    useSqlite: true # Set to true to use SQLite instead of MySQL
+    sqlitePath: "db.sqlite" # The path to the SQLite database file
+    # Set to true if you have a MySQL database and want to transfer to SQLite,
+    # the contents of the MySQL database will be copied to the SQLite database.
+    migrateToSqlite: false
+
+# The server section contains the host and port to listen on
+server:
+    host: 127.0.0.1:8080 # The host and port to listen on
+
+# The branding section contains the name of the forum and other branding options
+branding:
+    name: Untitled Forum # The name of the forum

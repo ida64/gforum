@@ -1,0 +1,11 @@
+{{ define "componentBody" }}
+{{ if .AutoDelete }}
+<div hx-ext="remove-me">
+    {{ end }}
+    <div class="alert {{ .Type }}" {{ if .AutoDelete }} remove-me="2s" {{ end }}>
+        {{ .Text }}
+    </div>
+    {{ if .AutoDelete }}
+</div>
+{{ end }}
+{{ end }}

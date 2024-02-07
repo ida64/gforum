@@ -1,0 +1,10 @@
+{{ define "content" }}
+
+<div id="mainPageContent">
+  {{if .IsRestore }}
+  <div hx-get="{{ .RestorePath }}" hx-swap="outerHTML" hx-trigger="load"></div>
+  {{ else }}
+  <div hx-get="/component/feed/0" hx-swap="outerHTML" hx-trigger="load" id="feedContent"></div>
+  {{ end }}
+</div>
+{{ end }}

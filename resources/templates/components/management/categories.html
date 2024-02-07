@@ -1,0 +1,33 @@
+{{ define "componentBody" }}
+<p>
+    Please select a category to modify.
+</p>
+{{ if .GlobalView.Categories }}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{ range .GlobalView.Categories }}
+        <tr>
+            <td>{{ .ID }}</td>
+            <td>{{ .Name }}</td>
+            <td>{{ .Description }}</td>
+            <td>
+                <a href="/management/categories/{{ .ID }}/edit">Edit</a>
+                <a href="/management/categories/{{ .ID }}/delete">Delete</a>
+            </td>
+        </tr>
+        {{ end }}
+    </tbody>
+</table>
+{{ else }}
+<p>No categories found.</p>
+{{ end }}
+
+{{ end }}

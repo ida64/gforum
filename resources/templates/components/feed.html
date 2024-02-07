@@ -1,0 +1,31 @@
+{{ define "componentBody" }}
+
+<head>
+  <title>{{ .GlobalView.Branding.Name }} - My Feed</title>
+</head>
+
+<div class="p-3 bg-body rounded shadow-sm">
+  <h3 class="border-bottom pb-2 mb-0 container">My Feed</h3>
+  {{ range .Posts }}
+  <div class="post-box">
+    <div id="postContainer_{{ .ID }}" hx-get="/component/user/{{ .User.ID }}/icon" hx-push-url="false" hx-target="#postContainer_{{ .ID }}" hx-swap="innerHTML" hx-trigger="load"></div>
+    <h2 class="title">
+      <a href="/post/{{ .ID }}" hx-get="/post/{{.ID}}" hx-swap="innerHTML" hx-trigger="click" hx-target="#mainPageContent" hx-push-url="true" hx-boost="true">{{ .Title }}</a>
+    </h2>
+    <p class="last-active">{{ .GetTimeAgo }}</p>
+  </div>
+  {{ end }}
+  <div class="pagination">
+    {{ if .LastPageExists }}
+    <a class="page-link active" href="#" hx-get="/component/feed/{{ .LastPageOffset }}" hx-swap="innerHTML" hx-trigger="click" hx-target="#mainPageContent" hx-push-url="false">Previous</a>
+    {{ else }}
+    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+    {{ end }}
+    {{ if .NextPageExists }}
+    <a class="page-link active" href="#" hx-get="/component/feed/{{ .NextPageOffset }}" hx-swap="innerHTML" hx-trigger="click" hx-target="#mainPageContent" hx-push-url="false">Next</a>
+    {{ else }}
+    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
+    {{ end }}
+  </div>
+</div>
+{{ end }}

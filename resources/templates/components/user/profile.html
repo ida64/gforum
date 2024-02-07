@@ -1,0 +1,43 @@
+{{ define "componentBody" }}
+
+<head>
+    <title>{{ .GlobalView.Branding.Name }} - My Profile</title>
+</head>
+
+<div class="my-3 p-3 bg-body rounded shadow-sm" style="min-width: 40%;">
+    <div class="post-box">
+        <div class="mb-3">
+            <label for="currentAvatar">Current Avatar</label>
+            <div id="currentAvatar" hx-get="/component/user/{{ .GlobalView.CurrentUser.ID }}/icon" hx-push-url="false" hx-target="#currentAvatar" hx-swap="innerHTML" hx-trigger="load">
+        </div>
+        <form hx-put="/action/user/avatar" hx-swap="innerHTML" hx-target="#updateProfileActionResponse" hx-trigger="submit" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="inputAvatar" class="form-label">Avatar</label>
+                <input type="file" class="form-control dark-mode" id="inputAvatar" name="inputAvatar" autocomplete="off" required />
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </div>
+        </form>
+        <hr>
+        <form hx-put="/action/user" hx-swap="innerHTML" hx-target="#updateProfileActionResponse" hx-trigger="submit">
+            <div class="mb-3">
+                <label for="inputUsername" class="form-label">Username</label>
+                <input type="text" class="form-control dark-mode" id="inputUsername" name="inputUsername" autocomplete="off" value="{{ .GlobalView.CurrentUser.Username }}" required />
+            </div>
+            <div class="mb-3">
+                <label for="inputEmail" class="form-label">Email</label>
+                <input type="email" class="form-control dark-mode" id="inputEmail" name="inputEmail" autocomplete="off" value="{{ .GlobalView.CurrentUser.Email }}" required />
+            </div>
+            <div class="mb-3">
+                <label for="inputPassword" class="form-label">Password</label>
+                <input type="password" class="form-control dark-mode" id="inputPassword" name="inputPassword" autocomplete="off" value="donotchange" required />
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+        </form>
+        <div id="updateProfileActionResponse" class="mt-3"></div>
+    </div>
+</div>
+{{ end }}

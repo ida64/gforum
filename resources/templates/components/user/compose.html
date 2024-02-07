@@ -1,0 +1,53 @@
+{{ define "componentBody" }}
+
+<head>
+  <title>{{ .GlobalView.Branding.Name }} - Compose</title>
+</head>
+
+<div class="my-3 p-3 bg-body rounded shadow-sm" style="min-width: 40%;">
+  <div class="post-box">
+    <form hx-post="/action/user/compose" hx-swap="innerHTML" hx-trigger="submit" hx-target="#composeActionResponse">
+      <div class="mb-3">
+        <label for="inputTitle" class="form-label">Title</label>
+        <input type="text" class="form-control dark-mode" id="inputTitle" name="inputTitle" autocomplete="off" required />
+      </div>
+      <div class="mb-3">
+        <label for="inputCategory" class="form-label">Category</label>
+        <select class="form-select dark-mode" id="inputCategory" name="inputCategory" required>
+          {{ range .GlobalView.Categories }}
+          <option value={{ .Name }}>{{ .Name }}</option>
+          {{ end }}
+        </select>
+      </div>
+      <div class="mb-3">
+        <p>
+          <span class="badge primary">Original Poster</span>
+          {{ if .GlobalView.CurrentUser.IsAdministrator }}
+          <span class="badge danger">Admin</span>
+          {{ end }}
+          {{ .GlobalView.CurrentUser.Username }} (now)
+        </p>
+      </div>
+      <div class="mb-3">
+        <label for="markdownEditorContainer" class="form-label">Content</label>
+        <div id="markdownEditorContainer" style="border-radius: 10px">
+          <textarea id="markdownEditor"></textarea>
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="alert warning">
+          <img src="/captcha/{{ .Captcha.ID }}.png" alt="Captcha" id="captchaImage" width="50%" />
+          <input type="text" class="form-control dark-mode" id="inputCaptchaSolution" name="inputCaptchaSolution" autocomplete="off" placeholder="123456" required />
+        </div>
+      </div>
+      <div class="mb-3">
+        <button type="submit">Post</button>
+      </div>
+      <textarea type="text" class="hidden" id="inputMarkdown" name="inputMarkdown"></textarea>
+      <input type="hidden" name="inputCaptchaID" value={{ .Captcha.ID }} />
+    </form>
+    <div id="composeActionResponse" class="mt-3"></div>
+    <script>initializeMarkdownEditor();</script>
+  </div>
+</div>
+{{ end }}

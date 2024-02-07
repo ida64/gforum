@@ -1,0 +1,17 @@
+{{ define "componentBody" }}
+
+<head>
+    <title>{{ .GlobalView.Branding.Name }} - Management</title>
+</head>
+
+<div class="my-3 p-3 bg-body rounded shadow-sm" style="min-width: 40%;">
+    <div class="card-box">
+        <div hx-get="/component/management/navigation" hx-swap="innerHTML" hx-trigger="load" id="managementNavigation"></div>
+        <div id="managementContent">
+            <p>Welcome back, {{ .GlobalView.CurrentUser.Username }}!</p>
+            <p>Please select from the navigation an option.</p>
+        </div>
+    </div>
+</div>
+
+{{ end }}
