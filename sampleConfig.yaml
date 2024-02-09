@@ -24,4 +24,11 @@ categories:
     - name: Programming
       description: Discuss programming languages, frameworks, and tools
     - name: Off-Topic
+<<<<<<< HEAD
       description: Anything not related to the forum
+=======
+      description: Anything not related to the forum
+
+# These usernames will be marked as administrator upon startup
+administrators:
+>>>>>>> af84969d4e176f773a1fd9fdfde5098ff497bd55
