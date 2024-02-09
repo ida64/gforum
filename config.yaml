@@ -1,9 +1,0 @@
-database:
-    dsn:
-    useSqlite: true
-    sqlitePath: db.sqlite
-    migrateToSqlite: false
-server:
-    host: 127.0.0.1:8080
-branding:
-    name: Untitled Forum
