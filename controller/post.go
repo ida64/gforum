@@ -47,6 +47,7 @@ func renderPost(c *gin.Context) {
 
 type FeedView struct {
 	GlobalView     *GlobalView
+	FeedName       string
 	Posts          []database.PostModel
 	CurrentOffset  int
 	NextPageOffset int
@@ -66,6 +67,7 @@ func renderFeed(c *gin.Context) {
 
 	view := FeedView{
 		GlobalView:     NewGlobalView(c),
+		FeedName:       "Recent Posts",
 		Posts:          posts,
 		CurrentOffset:  offset,
 		NextPageOffset: offset + 1,
@@ -100,10 +102,18 @@ func renderFeedByCategory(c *gin.Context) {
 		return
 	}
 
+	var feedName string = "Recent Posts"
+	if len(posts) > 0 {
+		if categoryName, err := database.GetCategoryName(id); err == nil {
+			feedName = categoryName
+		}
+	}
+
 	var content = parseHTMLTemplatesFromResources("components/feed.html")
 
 	if err := content.ExecuteTemplate(c.Writer, "componentBody", FeedView{
 		GlobalView: NewGlobalView(c),
+		FeedName:   feedName,
 		Posts:      posts,
 	}); err != nil {
 		c.AbortWithError(500, err)

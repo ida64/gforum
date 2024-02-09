@@ -96,6 +96,4 @@ func init() {
 	}
 
 	Database = db
-
-	log.Println("Database connection established")
 }

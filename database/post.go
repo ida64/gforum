@@ -84,6 +84,16 @@ func GetRecentPostsByCategory(category int, limit int) ([]PostModel, error) {
 	return posts, nil
 }
 
+func GetCategoryName(id int) (string, error) {
+	var name string
+	err := Database.Model(&CategoryModel{}).Select("name").Where("id = ?", id).Scan(&name).Error
+	if err != nil {
+		return "", err
+	}
+
+	return name, nil
+}
+
 type PostCommentModel struct {
 	gorm.Model
 
