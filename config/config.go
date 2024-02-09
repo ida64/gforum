@@ -23,10 +23,16 @@ type Branding struct {
 	Name string `yaml:"name"`
 }
 
+type Category struct {
+	Name        string `yaml:"name"`
+	Description string `yaml:"description"`
+}
+
 type Config struct {
-	Database Database `yaml:"database"`
-	Server   Server   `yaml:"server"`
-	Branding Branding `yaml:"branding"`
+	Database   Database   `yaml:"database"`
+	Server     Server     `yaml:"server"`
+	Branding   Branding   `yaml:"branding"`
+	Categories []Category `yaml:"categories"`
 }
 
 var LoadedConfig *Config

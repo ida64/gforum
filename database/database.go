@@ -51,6 +51,23 @@ func transferDatabase(source *gorm.DB, destination *gorm.DB) error {
 	return nil
 }
 
+func createCategories(source *gorm.DB) error {
+	categories := config.LoadedConfig.Categories
+
+	for _, category := range categories {
+		var existingCategory CategoryModel
+		result := source.Where("name = ?", category.Name).FirstOrCreate(&existingCategory, CategoryModel{
+			Name:        category.Name,
+			Description: category.Description,
+		})
+		if result.Error != nil {
+			return result.Error
+		}
+	}
+
+	return nil
+}
+
 func init() {
 	var dialector gorm.Dialector
 
@@ -93,6 +110,11 @@ func init() {
 				log.Fatal(err)
 			}
 		}
+	}
+
+	err = createCategories(db)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	Database = db

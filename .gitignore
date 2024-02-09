@@ -1,5 +1,5 @@
 # Ignore .yaml/.yml files
-config.yaml
+*.yaml
 *.yml
 
 # Ignore .db files

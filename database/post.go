@@ -48,7 +48,6 @@ func (post *PostModel) ToHTML() string {
 	safeHTML := bluemonday.UGCPolicy().SanitizeBytes(unsafeHTML)
 
 	return string(safeHTML)
-
 }
 
 func GetPost(id int) (*PostModel, error) {
