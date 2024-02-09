@@ -1,0 +1,22 @@
+{{ define "componentBody" }}
+{{ $feed_id := .FeedID }}
+<select id="feedInput" class="dark-mode">
+    <option value="0">No Filter</option>
+    {{ range .GlobalView.Categories }}
+    {{ if eq $feed_id .ID }}
+    <option value="{{ .ID }}" selected>{{ .Name }}</option>
+    {{ else }}
+    <option value="{{ .ID }}">{{ .Name }}</option>
+    {{ end }}
+    {{ end }}
+</select>
+<script>
+    document.getElementById("feedInput").addEventListener("change", function () {
+        if (this.value == 0) {
+            window.location.href = "/";
+        } else {
+            window.location.href = "/feed/" + this.value;
+        }
+    });
+</script>
+{{ end }}

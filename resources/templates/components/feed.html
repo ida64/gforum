@@ -3,9 +3,13 @@
 <head>
   <title>{{ .GlobalView.Branding.Name }} - {{ .FeedName }}</title>
 </head>
-
-<div class="p-3 bg-body rounded shadow-sm">
-  <h3 class="border-bottom pb-2 mb-0 container">My Feed</h3>
+<div class="p-2 bg-body rounded shadow-sm">
+  <div>
+    <h3>
+      {{ .FeedName }}
+      <div hx-get="/component/feedSelector/{{ .CurrentCategory }}" hx-swap="innerHTML" hx-trigger="load"></div>
+    </h3>
+  </div>
   {{ range .Posts }}
   <div class="post-box">
     <div id="postContainer_{{ .ID }}" hx-get="/component/user/{{ .User.ID }}/icon" hx-push-url="false" hx-target="#postContainer_{{ .ID }}" hx-swap="innerHTML" hx-trigger="load"></div>

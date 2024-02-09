@@ -73,6 +73,11 @@ var componentRoutes = []Route{
 	},
 	{
 		Method:   "GET",
+		Path:     "/feedSelector/:feed_id",
+		Handlers: []gin.HandlerFunc{renderFeedSelector},
+	},
+	{
+		Method:   "GET",
 		Path:     "/feed/:offset",
 		Handlers: []gin.HandlerFunc{renderFeed},
 	},

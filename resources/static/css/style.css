@@ -4,6 +4,7 @@ body {
     padding: 0;
     background-color: #212121;
     color: #fff;
+    font-family: Helvetica, Arial, sans-serif;
 }
 
 .dark-mode {
@@ -20,7 +21,6 @@ h1,
 h2,
 h3,
 h4 {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-weight: normal;
     font-style: normal;
 }
@@ -30,7 +30,6 @@ a:visited {
 }
 
 label {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
     text-align: left;
     display: block;
     color: #fff;
@@ -139,7 +138,7 @@ button.small {
     text-align: center;
     border-radius: 2px;
     font-size: 12px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
 }
 
 .badge.primary {
@@ -171,6 +170,10 @@ button.small {
     padding: 1rem;
 }
 
+.p-2 {
+    padding: 0.5rem;
+}
+
 .rounded {
     border-radius: 0.25rem;
 }
@@ -197,11 +200,16 @@ button.small {
 
 .post-box {
     background-color: #333;
-    padding: 10px;
+    padding: 10px 150px 10px 10px;
     border-radius: 5px;
     color: #fff;
     margin-bottom: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.post-box a {
+    text-decoration: none;
+    color: #fff;
 }
 
 .post-box .content {
@@ -249,18 +257,16 @@ a {
 
 .pagination {
     display: flex;
-    justify-content: center;
     margin-top: 20px;
 }
 
 .pagination .page-link {
     color: #fff;
     background-color: #333;
-    border: 1px solid #fff;
     padding: 5px 10px;
-    margin: 0 5px;
-    border-radius: 5px;
+    width: 50%;
     cursor: pointer;
+    text-align: center;
 }
 
 .pagination .page-link:hover {
@@ -309,7 +315,6 @@ input[type="submit"]:hover {
 }
 
 .form-label {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
     text-align: left;
     display: block;
     color: #fff;

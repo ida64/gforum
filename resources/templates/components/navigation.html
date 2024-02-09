@@ -5,15 +5,7 @@
       <li>
         <a href="/">Home</a>
       </li>
-      <li>[</li>
-      {{ range .GlobalView.Categories }}
-      <li>
-        <a href="/feed/{{ .ID }}">
-          {{ .Name }}
-        </a>
-      </li>
-      {{ end }}
-      <li>]</li>
+      <li id="feedInputContainer"></li>
     </ul>
   </div>
   <div class="right-content">
