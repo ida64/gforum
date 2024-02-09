@@ -17,3 +17,6 @@ copy the sample configuration file from [./sampleConfig.yaml](https://github.com
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
+## Note
+
+this project is still in development and is missing a variety of functionality such as a proper site administration menu.
