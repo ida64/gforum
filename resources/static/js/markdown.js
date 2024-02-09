@@ -1,9 +1,10 @@
 function initializeMarkdownEditor() {
-    const markdownEditorContainer = document.getElementById("markdownEditorContainer");
+    let markdownEditorContainer = document.getElementById("markdownEditorContainer");
     let markdownEditor = document.getElementById("markdownEditor");
 
     if (markdownEditor) {
         markdownEditor.remove();
+        markdownEditorContainer.innerHTML = "";
     }
 
     const newMarkdownEditor = document.createElement("textarea");
