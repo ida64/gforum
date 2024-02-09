@@ -111,6 +111,11 @@ var actionRoutes = []Route{
 		Path:     "/user",
 		Handlers: []gin.HandlerFunc{userMiddleware, userEnforceMiddleware, updateProfileAction},
 	},
+	{
+		Method:   "PUT",
+		Path:     "/user/avatar",
+		Handlers: []gin.HandlerFunc{userMiddleware, userEnforceMiddleware, updateAvatarAction},
+	},
 
 	{
 		Method:   "POST",

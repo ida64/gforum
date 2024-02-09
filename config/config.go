@@ -29,10 +29,11 @@ type Category struct {
 }
 
 type Config struct {
-	Database   Database   `yaml:"database"`
-	Server     Server     `yaml:"server"`
-	Branding   Branding   `yaml:"branding"`
-	Categories []Category `yaml:"categories"`
+	Database       Database   `yaml:"database"`
+	Server         Server     `yaml:"server"`
+	Branding       Branding   `yaml:"branding"`
+	Categories     []Category `yaml:"categories"`
+	Administrators []string   `yaml:"administrators"`
 }
 
 var LoadedConfig *Config

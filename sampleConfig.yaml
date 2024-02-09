@@ -17,3 +17,11 @@ server:
 # The branding section contains the name of the forum and other branding options
 branding:
     name: Untitled Forum # The name of the forum
+
+# The categories section contains a list of categories for the forum
+# Each category has a name and a description and will be created when the forum is started
+categories:
+    - name: Programming
+      description: Discuss programming languages, frameworks, and tools
+    - name: Off-Topic
+      description: Anything not related to the forum

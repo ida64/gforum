@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"errors"
 	database "gforum/database"
 	utils "gforum/utils"
 
@@ -89,6 +90,49 @@ func updateProfileAction(c *gin.Context) {
 	}
 
 	renderSuccess(c, "profile updated", true)
+}
+
+func updateAvatarAction(c *gin.Context) {
+	user, ok := database.GetUserByValue(c)
+	if !ok {
+		renderError(c, database.ErrUserNotFound)
+		return
+	}
+
+	file, err := c.FormFile("inputAvatar")
+	if err != nil {
+		renderError(c, err)
+		return
+	}
+
+	var contentType = file.Header.Get("Content-Type")
+	if contentType != "image/png" && contentType != "image/jpeg" {
+		renderError(c, errors.New("invalid file type"))
+		return
+	}
+
+	var fileExtension string = ".png"
+	if contentType == "image/jpeg" {
+		fileExtension = ".jpg"
+	}
+
+	var fileName = utils.GenerateRandomString(32) + fileExtension
+
+	err = c.SaveUploadedFile(file, "resources/avatars/"+fileName)
+	if err != nil {
+		renderError(c, err)
+		return
+	}
+
+	user.Avatar = fileName
+
+	err = database.Database.Save(user).Error
+	if err != nil {
+		renderError(c, err)
+		return
+	}
+
+	renderSuccess(c, "avatar updated", true)
 }
 
 func userMiddleware(c *gin.Context) {

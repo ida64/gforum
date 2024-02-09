@@ -68,6 +68,26 @@ func createCategories(source *gorm.DB) error {
 	return nil
 }
 
+func updateAdministrators(source *gorm.DB) error {
+	usernames := config.LoadedConfig.Administrators
+
+	for _, username := range usernames {
+		var user UserModel
+		result := source.Where("username = ?", username).First(&user)
+		if result.Error != nil {
+			return result.Error
+		}
+
+		user.IsAdministrator = true
+		result = source.Save(&user)
+		if result.Error != nil {
+			return result.Error
+		}
+	}
+
+	return nil
+}
+
 func init() {
 	var dialector gorm.Dialector
 
@@ -113,6 +133,11 @@ func init() {
 	}
 
 	err = createCategories(db)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = updateAdministrators(db)
 	if err != nil {
 		log.Fatal(err)
 	}

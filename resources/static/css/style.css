@@ -86,16 +86,13 @@ nav ul li {
 }
 
 nav ul li a {
+    color: #fff;
     text-decoration: none;
-}
-
-a {
-    color: #6a60ff;
+    
 }
 
 nav ul li.active a {
-    text-decoration: underline;
-    color: #6a60ff;
+    color: #007bff;
 }
 
 button {
