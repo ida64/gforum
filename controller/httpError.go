@@ -26,7 +26,6 @@ func NewHttpErrorView(globalView *GlobalView, errorCode int, message string) *Ht
 }
 
 func sendErrorWithPage(c *gin.Context, errorCode int, message string) {
-	var view = NewHttpErrorView(NewGlobalView(c), errorCode, message)
-	view.Render(c)
+	NewHttpErrorView(NewGlobalView(c), errorCode, message).Render(c)
 	c.Abort()
 }
