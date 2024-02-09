@@ -2,6 +2,9 @@
 *.yaml
 *.yml
 
+# Ignore config.yaml
+config.yaml
+
 # Ignore .db files
 *.db
 *.sqlite

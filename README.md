@@ -1,6 +1,8 @@
 # gforum
 simplistic web forum built in Go using HTMX.
 
+[![Go](https://github.com/ida64/gforum/actions/workflows/go.yml/badge.svg)](https://github.com/ida64/gforum/actions/workflows/go.yml)
+
 ![compose a new post](https://i.ibb.co/L0FnnwG/image.png)
 
 ## Features
