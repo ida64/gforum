@@ -30,7 +30,9 @@ type UserModel struct {
 }
 
 func (user *UserModel) SetPassword(password string) error {
-	// TODO: validate password
+	if err := utils.ValidatePassword(password); err != nil {
+		return err
+	}
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {

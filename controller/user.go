@@ -45,7 +45,7 @@ func renderProfile(c *gin.Context) {
 type ProfileForm struct {
 	Username string `form:"inputUsername" binding:"required" validate:"required,min=4,max=32"`
 	Email    string `form:"inputEmail" binding:"required" validate:"required,email"`
-	Password string `form:"inputPassword" binding:"required" validate:"required,min=8,max=64"`
+	Password string `form:"inputPassword" binding:"required" validate:"required"`
 }
 
 func updateProfileAction(c *gin.Context) {
