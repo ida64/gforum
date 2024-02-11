@@ -59,10 +59,15 @@ td.label {
 }
 
 nav {
+    background-color: rgba(51, 51, 51, 0.8);
     display: flex;
     justify-content: space-between;
-    background-color: #333;
-    padding: 5px;
+    padding: 3px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
 }
 
 nav .left-content {
@@ -77,11 +82,14 @@ nav ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
+    display: flex;
+    align-items: center;
 }
 
 nav ul li {
-    display: inline;
     margin-right: 10px;
+    font-size: 18;
+    display: inline-block;
 }
 
 nav ul li a {
@@ -103,7 +111,7 @@ button {
 }
 
 button.small {
-    padding: 3px;
+    padding: 2px;
     font-size: 12px;
 }
 

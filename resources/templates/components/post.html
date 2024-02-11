@@ -3,8 +3,7 @@
 <head>
   <title>{{ .GlobalView.Branding.Name }} - {{ .Post.Title }}</title>
 </head>
-
-<div class="my-3 p-3 bg-body rounded shadow-sm" style="min-width: 40%;">
+<div class="my-3 p-2 bg-body rounded shadow-sm" style="min-width: 40%;">
   <div class="post-box">
     <h2 class="title">
       {{ .Post.Title }}
@@ -15,7 +14,7 @@
         {{ if .Post.User.IsAdministrator }}
         <span class="badge danger">Admin</span>
         {{ end }}
-        {{ .Post.User.Username }}
+        {{ .Post.User.Username }} ({{ .Post.GetTimeAgo }})
       </label>
     </div>
     {{ .Content }}

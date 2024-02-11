@@ -5,7 +5,6 @@
       <li>
         <a href="/">Home</a>
       </li>
-      <li id="feedInputContainer"></li>
     </ul>
   </div>
   <div class="right-content">
@@ -13,23 +12,31 @@
       {{ if .GlobalView.CurrentUser }}
       <li>
         <a href="#" style="color:#6a60ff;" hx-get="/user/profile" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-target="#mainPageContent">
-          @{{ .GlobalView.CurrentUser.Username }}
+          My Profile
         </a>
       </li>
       {{ if .GlobalView.CurrentUser.IsAdministrator }}
       <li>
-        <a href="#" style="color:red;" hx-get="/management" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-target="#mainPageContent">Site Administration</a>
+        <a href="#" style="color:red;" hx-get="/management" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-target="#mainPageContent">
+          Management
+        </a>
       </li>
       {{ end }}
       <li>
-        <button class="small" hx-get="/user/compose" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-target="#mainPageContent">Compose</button>
+        <button class="small" hx-get="/user/compose" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-target="#mainPageContent">
+          Compose
+        </button>
       </li>
       {{ else }}
       <li>
-        <a href="#" hx-get="/user/login" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-target="#mainPageContent">Login</a>
+        <a href="#" hx-get="/user/login" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-target="#mainPageContent">
+          Login
+        </a>
       </li>
       <li>
-        <a href="#" hx-get="/user/register" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-target="#mainPageContent">Register</a>
+        <a href="#" hx-get="/user/register" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-target="#mainPageContent">
+          Register
+        </a>
       </li>
       {{ end }}
     </ul>
