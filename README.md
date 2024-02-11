@@ -3,7 +3,7 @@ forum built in Go.
 
 [![Go](https://github.com/ida64/gforum/actions/workflows/go.yml/badge.svg)](https://github.com/ida64/gforum/actions/workflows/go.yml)
 
-![compose a new post](https://i.ibb.co/L0FnnwG/image.png)
+![view post](https://i.ibb.co/3mSXxWv/brave-screenshot.png)
 
 ## Features
 
