@@ -132,7 +132,7 @@ type PostFeedView struct {
 }
 
 func NewPostFeedView(c *gin.Context) *PostFeedView {
-	var id int = utils.GetParamterInt(c, "id")
+	var id int = utils.GetParamterInt(c, "post_id")
 
 	comments, err := database.GetPostComments(id)
 	if err != nil {

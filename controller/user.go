@@ -9,7 +9,7 @@ import (
 )
 
 func renderUserIcon(c *gin.Context) {
-	var userId = utils.GetParamterInt(c, "id")
+	var userId = utils.GetParamterInt(c, "user_id")
 
 	var content = parseTextTemplatesFromResources("components/user/userIcon.html")
 

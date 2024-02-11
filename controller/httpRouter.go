@@ -83,12 +83,12 @@ var componentRoutes = []Route{
 	},
 	{
 		Method:   "GET",
-		Path:     "/user/:id/icon",
+		Path:     "/user/:user_id/icon",
 		Handlers: []gin.HandlerFunc{renderUserIcon},
 	},
 	{
 		Method:   "GET",
-		Path:     "/post/:id/feed",
+		Path:     "/post/:post_id/feed",
 		Handlers: []gin.HandlerFunc{renderPostFeed},
 	},
 
