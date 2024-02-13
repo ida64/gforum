@@ -52,6 +52,11 @@ var rootRoutes = []Route{
 		Path:     "/post/:id",
 		Handlers: []gin.HandlerFunc{userMiddleware, restorePageMiddleware, renderPost},
 	},
+	{
+		Method:   "GET",
+		Path:     "/post/:id/dialog",
+		Handlers: []gin.HandlerFunc{userMiddleware, restorePageMiddleware, renderPostDialog},
+	},
 
 	{
 		Method:   "GET",

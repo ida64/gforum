@@ -1,34 +1,58 @@
-function initializeDialogController() {
-    var dialogHeader = document.querySelector('.dialog-header');
-    var isMouseDown = false;
-    var offset = [0, 0];
+function getHighestZIndex() {
+    const elements = document.getElementsByTagName('*');
+    let highestZIndex = 0;
 
-    dialogHeader.addEventListener('mousedown', function (e) {
+    for (let i = 0; i < elements.length; i++) {
+        const zIndex = parseInt(window.getComputedStyle(elements[i]).getPropertyValue('z-index'));
+        if (zIndex > highestZIndex) {
+            highestZIndex = zIndex;
+        }
+    }
+
+    return highestZIndex;
+}
+
+function initializeDialogController() {
+    const dialog = document.querySelector('.dialog-header');
+    let isMouseDown = false;
+    let offset = [0, 0];
+
+    const centerX = (window.innerWidth - dialog.parentElement.offsetWidth);
+    const centerY = (window.innerHeight / 2) - (dialog.parentElement.offsetHeight / 2);
+
+    dialog.parentElement.style.left = centerX + 'px';
+    dialog.parentElement.style.top = centerY + 'px';
+
+    dialog.addEventListener('mousedown', (e) => {
         isMouseDown = true;
         offset = [
-            dialogHeader.parentElement.offsetLeft - e.clientX,
-            dialogHeader.parentElement.offsetTop - e.clientY
+            dialog.parentElement.offsetLeft - e.clientX,
+            dialog.parentElement.offsetTop - e.clientY
         ];
     }, true);
 
-    document.addEventListener('mouseup', function () {
+    document.addEventListener('mouseup', () => {
         isMouseDown = false;
     }, true);
 
-    document.addEventListener('mousemove', function (event) {
+    dialog.parentElement.addEventListener('click', () => {
+        dialog.parentElement.style.zIndex = getHighestZIndex() + 1;
+    });
+
+    document.addEventListener('mousemove', (event) => {
         event.preventDefault();
         if (isMouseDown) {
-            dialogHeader.parentElement.style.left = (event.clientX + offset[0]) + 'px';
-            dialogHeader.parentElement.style.top = (event.clientY + offset[1]) + 'px';
+            dialog.parentElement.style.left = (event.clientX + offset[0]) + 'px';
+            dialog.parentElement.style.top = (event.clientY + offset[1]) + 'px';
         }
     }, true);
 
-    var dialogClose = dialogHeader.querySelector('.dialog-close');
-    dialogClose.addEventListener('click', function (e) {
-        dialogHeader.parentElement.remove();
+    const dialogClose = dialog.querySelector('.dialog-close');
+    dialogClose.addEventListener('click', () => {
+        dialog.parentElement.remove();
     });
 }
 
-document.addEventListener("htmx:load", function (event) {
+document.addEventListener("htmx:load", () => {
     initializeDialogController();
 });

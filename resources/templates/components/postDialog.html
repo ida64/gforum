@@ -1,0 +1,32 @@
+{{ define "componentBody" }}
+
+<div class="dialog">
+    <div class="dialog-header">
+        <div class="left">{{ .Post.Title }}</div>
+        <div class="right dialog-close">X</div>
+    </div>
+    <div class="dialog-body">
+        <div class="my-3 p-2 bg-body rounded shadow-sm" style="min-width: 40%;">
+            <div class="post-box">
+                <h2 class="title">
+                    {{ .Post.Title }}
+                </h2>
+                <div>
+                    <label>
+                        <span class="badge primary">Original Poster</span>
+                        {{ if .Post.User.IsAdministrator }}
+                        <span class="badge danger">Admin</span>
+                        {{ end }}
+                        {{ .Post.User.Username }} ({{ .Post.GetTimeAgo }})
+                    </label>
+                </div>
+                {{ .Content }}
+                <hr>
+                <button class="small">
+                    <a href="/post/{{ .Post.ID }}">View Full Post</a>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{{ end }}

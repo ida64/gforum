@@ -337,34 +337,34 @@ input[type="submit"]:hover {
 }
 
 .dialog {
-  width: 200px;
-  height: 200px;
-  background-color: #333;
-  border: 1px solid #333333d2;
-  position: absolute;
-  cursor: default;
-  z-index: 10;
-  resize: both;
-  overflow: auto;
+    width: fit-content;
+    height: fit-content;
+    background-color: #333;
+    border: 1px solid #333333d2;
+    position: absolute;
+    cursor: default;
+    z-index: 10;
+    resize: both;
+    overflow: auto;
 }
 
 .dialog-header {
-  width: 100%;
-  background-color: #555;
-  color: white;
-  cursor: move;
-  display: flex;
-  justify-content: space-between;
+    width: 100%;
+    background-color: #555;
+    color: white;
+    cursor: move;
+    display: flex;
+    justify-content: space-between;
 }
 
 .dialog-header .left {
-  text-align: left;
+    text-align: left;
 }
 
 .dialog-header .right {
-  text-align: right;
+    text-align: right;
 }
 
 .dialog-body {
-  color: white;
+    color: white;
 }

@@ -45,6 +45,25 @@ func renderPost(c *gin.Context) {
 	c.Status(200)
 }
 
+func renderPostDialog(c *gin.Context) {
+	var id int = utils.GetParamterInt(c, "id")
+
+	var post, err = database.GetPost(id)
+	if err != nil {
+		renderError(c, err)
+		return
+	}
+
+	var content *template.Template = parseHTMLTemplatesFromResources("components/postDialog.html")
+
+	err = content.ExecuteTemplate(c.Writer, "componentBody", NewPostView(post, NewGlobalView(c)))
+	if err != nil {
+		c.AbortWithError(500, err)
+	}
+
+	c.Status(200)
+}
+
 type FeedView struct {
 	GlobalView      *GlobalView
 	FeedName        string
