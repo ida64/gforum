@@ -1,4 +1,4 @@
-window.addEventListener("load", function (event) {
+function initializeDialogController() {
     var dialogHeader = document.querySelector('.dialog-header');
     var isMouseDown = false;
     var offset = [0, 0];
@@ -27,4 +27,8 @@ window.addEventListener("load", function (event) {
     dialogClose.addEventListener('click', function (e) {
         dialogHeader.parentElement.remove();
     });
+}
+
+document.addEventListener("htmx:load", function (event) {
+    initializeDialogController();
 });
