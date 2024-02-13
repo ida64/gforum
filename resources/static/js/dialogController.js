@@ -14,6 +14,11 @@ function getHighestZIndex() {
 
 function initializeDialogController() {
     const dialog = document.querySelector('.dialog-header');
+    if(!dialog)
+    {
+        return;
+    }
+
     let isMouseDown = false;
     let offset = [0, 0];
 
