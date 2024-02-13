@@ -95,8 +95,8 @@ func renderFeed(c *gin.Context) {
 	c.Status(200)
 }
 
-func renderFeedByCategory(c *gin.Context) {
-	var id int = utils.GetParamterInt(c, "id")
+func renderFeedById(c *gin.Context) {
+	var id int = utils.GetParamterInt(c, "feed_id")
 
 	posts, err := database.GetRecentPostsByCategory(id, 5)
 	if err != nil {

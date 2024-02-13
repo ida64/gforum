@@ -21,8 +21,8 @@ var rootRoutes = []Route{
 	},
 	{
 		Method:   "GET",
-		Path:     "/feed/:id",
-		Handlers: []gin.HandlerFunc{userMiddleware, restorePageMiddleware, renderFeedByCategory},
+		Path:     "/feed/:feed_id",
+		Handlers: []gin.HandlerFunc{userMiddleware, restorePageMiddleware, renderFeedById},
 	},
 
 	{
